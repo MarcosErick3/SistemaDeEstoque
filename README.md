@@ -1,2 +1,0 @@
-# SistemaDeEstoque
- Projeto da faculdade 
