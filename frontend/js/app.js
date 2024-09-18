@@ -10,7 +10,14 @@ const listarProdutos = async () => {
 
         produtos.forEach(produto => {
             const item = document.createElement('li');
-            item.textContent = `ID: ${produto.produto_id} | Nome: ${produto.nome} | Categoria: ${produto.categoria}`;
+            item.textContent = `
+                ID: ${produto.produto_id} | 
+                Nome: ${produto.nome} | 
+                Categoria: ${produto.categoria} | 
+                Peso: ${produto.peso} kg | 
+                Dimensões: ${produto.dimensoes} | 
+                Fornecedor: ${produto.fornecedor_id}
+            `;
             listaProdutos.appendChild(item);
         });
     } catch (error) {
