@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+#header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+}
+
+#navbar {
+    display: flex;
+    justify-content: center;
+}
+
+#nav {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-item a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.nav-item a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+/* Estilos do main */
+#main {
+    padding: 20px;
+}
+
+/* Estilos da tabela */
+.table-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    overflow-x: auto;
+    /* Para permitir rolagem em telas pequenas */
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.styled-table th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f2f2f2;
+    /* Cor ao passar o mouse */
+}
+
+.edit-link,
+.delete-link {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.edit-link:hover {
+    text-decoration: underline;
+}
+
+.delete-link {
+    color: #dc3545;
+    /* Cor de erro para exclusão */
+}
+
+.delete-link:hover {
+    text-decoration: underline;
+}
