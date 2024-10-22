@@ -9,35 +9,6 @@ body {
     background-color: #f0f0f0;
 }
 
-#header {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 0;
-}
-
-#navbar {
-    display: flex;
-    justify-content: center;
-}
-
-#nav {
-    list-style-type: none;
-    display: flex;
-    gap: 20px;
-}
-
-.nav-item a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-.nav-item a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
 .form-main {
     background-color: #fff;
     border-radius: 8px;
@@ -80,7 +51,7 @@ input[type="tel"] {
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus {
-    border-color: #007bff;
+    border-color: #333;
     outline: none;
 }
 
@@ -93,7 +64,7 @@ input[type="tel"]:focus {
 }
 
 .btn {
-    background-color: #007bff;
+    background-color: #333;
     color: white;
     border: none;
     padding: 12px 25px;
@@ -132,7 +103,7 @@ input[disabled] {
 }
 
 .styled-table thead tr {
-    background-color: #007bff;
+    background-color: #333;
     color: white;
     text-align: left;
 }
@@ -151,12 +122,12 @@ input[disabled] {
 }
 
 .styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid #333;
 }
 
 .edit-link,
 .delete-link {
-    color: #007bff;
+    color: #333;
     text-decoration: none;
     margin-right: 10px;
 }

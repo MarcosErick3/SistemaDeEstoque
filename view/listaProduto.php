@@ -5,28 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/produto/listaProduto.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/index.css">
     <title>Lista de Produtos</title>
 </head>
 
 <body>
-    <header id="header">
+<header id="header">
         <nav id="navbar">
+            <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">
-                <li class="nav-item">
-                    <a href="cadastroFornecedor.php">Cadastro de Fornecedor</a>
-                </li>
-                <li class="nav-item">
-                    <a href="listaFornecedor.php">Lista de Fornecedor</a>
-                </li>
-                <li class="nav-item">
-                    <a href="cadastroProduto.php">Cadastro de Produtos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="listaProduto.php">Lista de Produtos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../index.php">Sair</a>
-                </li>
+                <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
+                <li class="nav-item"><a href="listaProduto.php">Lista de Produtos</a></li>
+                <li class="nav-item"><a href="buscarProduto.php">Buscar Produtos</a></li>
+                <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
+                <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
     </header>
@@ -77,6 +72,10 @@
                         <th>Data de Validade</th>
                         <th>Preço de Custo</th>
                         <th>Preço de Venda</th>
+                        <th>Zona</th>
+                        <th>Endereço</th>
+                        <th>Quantidade Reservada</th>
+                        <th>Status do Produto</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -94,11 +93,15 @@
                                 <td><?php echo htmlspecialchars($produto['numero_lote']); ?></td>
                                 <td><?php echo htmlspecialchars($produto['numero_serie']); ?></td>
                                 <td><?php echo htmlspecialchars($produto['codigo_barras']); ?></td>
-                                <td><?php echo htmlspecialchars($produto['nome']); ?></td>
+                                <td><?php echo htmlspecialchars($produto['fornecedor_nome']); ?></td>
                                 <td><?php echo htmlspecialchars($produto['data_fabricacao']); ?></td>
                                 <td><?php echo htmlspecialchars($produto['data_validade']); ?></td>
                                 <td><?php echo htmlspecialchars($produto['preco_custo']); ?></td>
                                 <td><?php echo htmlspecialchars($produto['preco_venda']); ?></td>
+                                <td><?php echo htmlspecialchars($produto['zona']); ?></td>
+                                <td><?php echo htmlspecialchars($produto['endereco']); ?></td>
+                                <td><?php echo htmlspecialchars($produto['quantidade_reservada']); ?></td>
+                                <td><?php echo htmlspecialchars($produto['status_produto']); ?></td>
                                 <td>
                                     <a class="edit-link" href="editarProduto.php?id=<?php echo htmlspecialchars($produto['produto_id']); ?>">Editar</a>
                                     <a class="delete-link" href="listaProduto.php?excluir_produto_id=<?php echo htmlspecialchars($produto['produto_id']); ?>"
@@ -108,13 +111,14 @@
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="15">Nenhum produto encontrado.</td>
+                            <td colspan="18">Nenhum produto encontrado.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
             </table>
         </div>
     </main>
+
 
     </table>
     </div>

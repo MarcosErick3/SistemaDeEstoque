@@ -5,17 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/produto/editarProduto.css">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/index.css">
     <title>Editar Produto</title>
 </head>
 
 <body>
-    <header id="header">
+<header id="header">
         <nav id="navbar">
+            <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">
-                <li class="nav-item"><a href="cadastroFornecedor.php">Cadastro de Fornecedor</a></li>
-                <li class="nav-item"><a href="listaFornecedor.php">Lista de Fornecedor</a></li>
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Lista de Produtos</a></li>
+                <li class="nav-item"><a href="buscarProduto.php">Buscar Produtos</a></li>
+                <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
@@ -100,21 +105,51 @@
                                 <input type="date" id="dataValidade" name="dataValidade" value="<?php echo htmlspecialchars($produto['data_validade']); ?>" required>
                             </div>
                             <div class="input-group">
-                                <label for="fornecedorId">Fornecedor</label>
+                                <label for="fornecedorId">Fornecedor ID</label>
                                 <input type="text" id="fornecedorId" name="fornecedorId" value="<?php echo htmlspecialchars($produto['fornecedor_id']); ?>" required>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="botao">
-                        <button type="submit" class="btn">Salvar Alterações</button>
-                        <a href="../view/listaProduto.php" class="btn">Voltar</a>
+                        <div class="input-column">
+                            <div class="input-group">
+                                <label for="peso">Peso</label>
+                                <input type="number" step="0.01" id="peso" name="peso" value="<?php echo htmlspecialchars($produto['peso']); ?>" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="zona">Zona</label>
+                                <input type="text" id="zona" name="zona" value="<?php echo htmlspecialchars($produto['zona']); ?>" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="endereco">Endereço</label>
+                                <input type="text" id="endereco" name="endereco" value="<?php echo htmlspecialchars($produto['endereco']); ?>" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="quantidadeReservada">Quantidade Reservada</label>
+                                <input type="number" id="quantidadeReservada" name="quantidadeReservada" value="<?php echo htmlspecialchars($produto['quantidade_reservada']); ?>" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="statusProduto">Status do Produto</label>
+                                <select id="statusProduto" name="statusProduto" required>
+                                    <option value="ativo" <?php echo ($produto['status_produto'] == 'ativo') ? 'selected' : ''; ?>>Disponível</option>
+                                    <option value="disponivel" <?php echo ($produto['status_produto'] == 'disponivel') ? 'selected' : ''; ?>>Disponível</option>
+                                    <option value="reservado" <?php echo ($produto['status_produto'] == 'reservado') ? 'selected' : ''; ?>>Reservado</option>
+                                    <option value="descontinuado" <?php echo ($produto['status_produto'] == 'descontinuado') ? 'selected' : ''; ?>>Descontinuado</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="botao">
+                            <button type="submit" class="btn">Salvar Alterações</button>
+                            <a href="../view/listaProduto.php" class="btn">Voltar</a>
+                        </div>
                     </div>
             <?php
                 }
             }
             ?>
         </form>
+
+
     </main>
 </body>
 

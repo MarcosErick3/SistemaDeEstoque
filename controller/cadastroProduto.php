@@ -3,44 +3,53 @@ require_once 'global.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (
-        !empty($_POST['nome']) && !empty($_POST['descricao']) &&
-        !empty($_POST['categoria']) && !empty($_POST['marca']) &&
+        !empty($_POST['nome']) &&
+        !empty($_POST['descricao']) &&
+        !empty($_POST['categoria']) &&
+        !empty($_POST['marca']) &&
         !empty($_POST['peso']) && is_numeric($_POST['peso']) &&
-        !empty($_POST['dimensoes']) && !empty($_POST['numeroLote']) &&
-        !empty($_POST['numeroSerie']) && !empty($_POST['codBarras']) &&
-        !empty($_POST['fornecedorNome']) && // Nome do fornecedor em vez do ID
-        !empty($_POST['dataFabricacao']) && !empty($_POST['dataValidade']) &&
-        !empty($_POST['precoCusto']) && is_numeric($_POST['precoCusto']) &&
-        !empty($_POST['precoVenda']) && is_numeric($_POST['precoVenda'])
+        !empty($_POST['dimensoes']) &&
+        !empty($_POST['numero_lote']) &&
+        !empty($_POST['numero_serie']) &&
+        !empty($_POST['codigo_barras']) && // Corrigido o nome do campo
+        !empty($_POST['fornecedor_id']) &&
+        !empty($_POST['data_fabricacao']) &&
+        !empty($_POST['data_validade']) &&
+        !empty($_POST['preco_custo']) && is_numeric($_POST['preco_custo']) &&
+        !empty($_POST['preco_venda']) && is_numeric($_POST['preco_venda']) &&
+        !empty($_POST['zona']) && // Adicionado
+        !empty($_POST['endereco']) && // Adicionado
+        !empty($_POST['quantidade_reservada']) && is_numeric($_POST['quantidade_reservada']) // Adicionado
     ) {
-        $fornecedorNome = $_POST['fornecedorNome'];
-        $fornecedor = FornecedorDao::buscarFornecedorPorNome($fornecedorNome);
+        $fornecedorId = $_POST['fornecedor_id'];
 
-        if ($fornecedor) {
-            $fornecedorId = $fornecedor['fornecedor_id']; 
+        // Criação do produto
+        $produto = new Produto();
+        $produto->setNome($_POST['nome']);
+        $produto->setDescricao($_POST['descricao']);
+        $produto->setCategoria($_POST['categoria']);
+        $produto->setMarca($_POST['marca']);
+        $produto->setPeso($_POST['peso']);
+        $produto->setDimensoes($_POST['dimensoes']);
+        $produto->setNumeroLote($_POST['numero_lote']);
+        $produto->setNumeroSerie($_POST['numero_serie']);
+        $produto->setCodBarras($_POST['codigo_barras']); // Corrigido o nome do campo
+        $produto->setFornecedorId($fornecedorId);
+        $produto->setDataFabricacao($_POST['data_fabricacao']);
+        $produto->setDataValidade($_POST['data_validade']);
+        $produto->setPrecoCusto($_POST['preco_custo']);
+        $produto->setPrecoVenda($_POST['preco_venda']);
+        $produto->setZona($_POST['zona']); // Adicionado
+        $produto->setEndereco($_POST['endereco']); // Adicionado
+        $produto->setQuantidadeReservada($_POST['quantidade_reservada']); // Adicionado
+        $produto->setStatusProduto('Disponível'); // Usando o valor padrão
 
-            $produto = new Produto();
-            $produto->setNome($_POST['nome']);
-            $produto->setDescricao($_POST['descricao']);
-            $produto->setCategoria($_POST['categoria']);
-            $produto->setMarca($_POST['marca']);
-            $produto->setPeso($_POST['peso']);
-            $produto->setDimensoes($_POST['dimensoes']);
-            $produto->setNumeroLote($_POST['numeroLote']);
-            $produto->setNumeroSerie($_POST['numeroSerie']);
-            $produto->setCodBarras($_POST['codBarras']);
-            $produto->setFornecedorId($fornecedorId);
-            $produto->setDataFabricacao($_POST['dataFabricacao']);
-            $produto->setDataValidade($_POST['dataValidade']);
-            $produto->setPrecoCusto($_POST['precoCusto']);
-            $produto->setPrecoVenda($_POST['precoVenda']);
-
+        try {
             $mensagem = ProdutoDao::cadastrar($produto);
-
             header("Location: ../view/cadastroProduto.php?mensagem=" . urlencode($mensagem));
             exit();
-        } else {
-            echo "Fornecedor não encontrado. Por favor, verifique o nome.";
+        } catch (Exception $e) {
+            echo "Erro ao cadastrar produto: " . htmlspecialchars($e->getMessage());
         }
     } else {
         echo "Por favor, preencha todos os campos obrigatórios corretamente!";

@@ -17,8 +17,9 @@ body {
 
 #navbar {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
 }
+
 
 #nav {
     list-style-type: none;

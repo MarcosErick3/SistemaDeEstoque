@@ -10,23 +10,14 @@
 
 <body>
     <header id="header">
-    <nav id="navbar">
+        <nav id="navbar">
+            <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">
-                <li class="nav-item">
-                    <a href="cadastroFornecedor.php">Cadastro de Fornecedor</a>
-                </li>
-                <li class="nav-item">
-                    <a href="listaFornecedor.php">Lista de Fornecedor</a>
-                </li>
-                <li class="nav-item">
-                    <a href="cadastroProduto.php">Cadastro de Produtos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="listaProduto.php">Lista de Produtos</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../index.php">Sair</a>
-                </li>
+                <li class="nav-item"><a href="cadastroFornecedor.php">Cadastro de Fornecedor</a></li>
+                <li class="nav-item"><a href="listaFornecedor.php">Lista de Fornecedor</a></li>
+                <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
+                <li class="nav-item"><a href="listaProduto.php">Lista de Produtos</a></li>
+                <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
     </header>

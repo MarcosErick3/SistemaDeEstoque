@@ -3,12 +3,13 @@ require_once 'global.php';
 
 class Produto
 {
+    // Propriedades
     private $produtoId;
     private $nome;
     private $descricao;
     private $categoria;
     private $marca;
-    private $peso; // Se o peso for necessário
+    private $peso;
     private $dimensoes;
     private $numeroLote;
     private $numeroSerie;
@@ -18,6 +19,10 @@ class Produto
     private $dataValidade;
     private $precoCusto;
     private $precoVenda;
+    private $zona; // Adicionado
+    private $endereco; // Adicionado
+    private $quantidadeReservada; // Adicionado
+    private $statusProduto; // Adicionado
 
     // Métodos set
     public function setProdutoId($produtoId)
@@ -95,8 +100,28 @@ class Produto
         $this->precoVenda = $precoVenda;
     }
 
+    public function setZona($zona)
+    {
+        $this->zona = $zona;
+    }
+
+    public function setEndereco($endereco)
+    {
+        $this->endereco = $endereco;
+    }
+
+    public function setQuantidadeReservada($quantidadeReservada)
+    {
+        $this->quantidadeReservada = $quantidadeReservada;
+    }
+
+    public function setStatusProduto($statusProduto)
+    {
+        $this->statusProduto = $statusProduto;
+    }
+
     // Métodos get
-    public function getCodigo()
+    public function getProdutoId()
     {
         return $this->produtoId;
     }
@@ -169,5 +194,25 @@ class Produto
     public function getPrecoVenda()
     {
         return $this->precoVenda;
+    }
+
+    public function getZona()
+    {
+        return $this->zona;
+    }
+
+    public function getEndereco()
+    {
+        return $this->endereco;
+    }
+
+    public function getQuantidadeReservada()
+    {
+        return $this->quantidadeReservada;
+    }
+
+    public function getStatusProduto()
+    {
+        return $this->statusProduto;
     }
 }
