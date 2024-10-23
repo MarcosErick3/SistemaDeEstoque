@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 22/10/2024 às 05:41
+-- Tempo de geração: 23/10/2024 às 13:58
 -- Versão do servidor: 8.0.39
 -- Versão do PHP: 8.2.12
 
@@ -78,34 +78,8 @@ CREATE TABLE `inventario` (
   `localizacao_id` int DEFAULT NULL,
   `data_inventario` date DEFAULT NULL,
   `operador_id` int DEFAULT NULL,
-  `divergencia` int DEFAULT '0'
+  `divergencia` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Despejando dados para a tabela `inventario`
---
-
-INSERT INTO `inventario` (`inventario_id`, `produto_id`, `quantidade_fisica`, `localizacao_id`, `data_inventario`, `operador_id`, `divergencia`) VALUES
-(1, 2, 1, 2, '1111-11-11', 1, 1),
-(2, 2, 1, 2, '1111-11-11', 1, 1),
-(3, 2, 1, 5, '1313-12-13', 1, 1),
-(4, 3, 3, 2, '3313-03-31', 1, 3);
-
---
--- Acionadores `inventario`
---
-DELIMITER $$
-CREATE TRIGGER `calcular_divergencia` BEFORE INSERT ON `inventario` FOR EACH ROW BEGIN
-  DECLARE quantidade_estoque INT;
-
-  SELECT quantidade INTO quantidade_estoque
-  FROM estoque
-  WHERE produto_id = NEW.produto_id AND localizacao_id = NEW.localizacao_id;
-
-  SET NEW.divergencia = NEW.quantidade_fisica - IFNULL(quantidade_estoque, 0);
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -151,13 +125,6 @@ CREATE TABLE `movimentacao` (
   `quantidade_movimentada` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Despejando dados para a tabela `movimentacao`
---
-
-INSERT INTO `movimentacao` (`movimentacao_id`, `produto_id`, `localizacao_origem_id`, `localizacao_destino_id`, `data_movimentacao`, `operador_id`, `motivo`, `quantidade_movimentada`) VALUES
-(1, 2, 3, 3, '1111-11-11 00:00:00', NULL, '1', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -187,7 +154,6 @@ INSERT INTO `operador` (`operador_id`, `nome`, `telefone`, `email`) VALUES
 CREATE TABLE `produto` (
   `produto_id` int NOT NULL,
   `nome` varchar(255) NOT NULL,
-  `descricao` text,
   `categoria` varchar(100) DEFAULT NULL,
   `marca` varchar(100) DEFAULT NULL,
   `peso` decimal(10,2) DEFAULT NULL,
@@ -198,21 +164,28 @@ CREATE TABLE `produto` (
   `fornecedor_id` int DEFAULT NULL,
   `data_fabricacao` date DEFAULT NULL,
   `data_validade` date DEFAULT NULL,
-  `preco_custo` decimal(10,2) DEFAULT NULL,
-  `preco_venda` decimal(10,2) DEFAULT NULL,
   `zona` varchar(100) DEFAULT NULL,
   `endereco` varchar(255) DEFAULT NULL,
   `quantidade_reservada` int DEFAULT '0',
-  `status_produto` varchar(50) DEFAULT 'Disponível'
+  `status_produto` varchar(50) DEFAULT 'Disponível',
+  `corredor` varchar(50) NOT NULL,
+  `prateleira` varchar(50) NOT NULL,
+  `nivel` varchar(50) NOT NULL,
+  `posicao` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Despejando dados para a tabela `produto`
 --
 
-INSERT INTO `produto` (`produto_id`, `nome`, `descricao`, `categoria`, `marca`, `peso`, `dimensoes`, `numero_lote`, `numero_serie`, `codigo_barras`, `fornecedor_id`, `data_fabricacao`, `data_validade`, `preco_custo`, `preco_venda`, `zona`, `endereco`, `quantidade_reservada`, `status_produto`) VALUES
-(2, '3', '3', '3', '3', 3.00, '3', '3', '3', '123231', 1, '3333-03-31', '3333-03-31', 3.00, 3.00, '3', '3', 3, 'reservado'),
-(3, 'Produto Exemplo', 'Descrição do Produto Exemplo', 'Categoria Exemplo', 'Marca Exemplo', 1.50, '10x10x10 cm', 'Lote123', 'Serie456', '7891234567890', 1, '2023-01-01', '2024-01-01', 20.00, 30.00, 'Zona A', 'Endereço Exemplo', 0, 'descontinuado');
+INSERT INTO `produto` (`produto_id`, `nome`, `categoria`, `marca`, `peso`, `dimensoes`, `numero_lote`, `numero_serie`, `codigo_barras`, `fornecedor_id`, `data_fabricacao`, `data_validade`, `zona`, `endereco`, `quantidade_reservada`, `status_produto`, `corredor`, `prateleira`, `nivel`, `posicao`) VALUES
+(6, '1', NULL, NULL, 1.00, '1', '1', '1', '1', 1, '0111-11-11', '1111-11-11', '1', '1', 1, 'Disponível', '1', '1', '1', '1'),
+(8, 'Produto Exemplo', 'Categoria Exemplo', 'Marca Exemplo', 1.00, '10x10x10', 'L123', 'S123', '1234567890123', 1, '2024-01-01', '2025-01-01', 'Zona Exemplo', 'Endereço Exemplo', 0, 'Ativo', 'Corredor 1', 'Prateleira 1', 'Nível 1', 'Posição 1'),
+(10, '2', '2', '2', 2.00, '2', '2', '2', '2', 1, '2222-02-22', '2222-02-22', '2', '2', 2, 'Disponível', '', '', '', ''),
+(11, '55', '55', '5', 55.00, '5', '5', '5', '5', 1, '5555-05-05', '0555-05-05', '5', '5', 5, 'Disponível', '', '', '', ''),
+(12, '55', '55', '5', 55.00, '5', '5', '5', '5', 1, '5555-05-05', '0555-05-05', '5', '5', 5, 'Disponível', '', '', '', ''),
+(13, '6', '6', '6', 6.00, '6', '6', '6', '6', 1, '6666-06-06', '6666-06-06', '6', '6', 6, 'Disponível', '', '', '', ''),
+(14, '9', '9', '9', 9.00, '9', '9', '9', '9', 1, '9999-09-09', '9999-09-09', '9', '9', 9, 'Disponível', '', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -262,14 +235,6 @@ CREATE TABLE `saida` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Despejando dados para a tabela `saida`
---
-
-INSERT INTO `saida` (`saida_id`, `produto_id`, `quantidade`, `data_saida`, `cliente`, `destino`, `fornecedor_id`) VALUES
-(1, 3, 1, '2024-10-18 23:58:07', 'Adidas', '1', 1),
-(2, 2, 2, '2024-10-22 00:26:10', 'Adidas', 'Casa', 1);
-
---
 -- Índices para tabelas despejadas
 --
 
@@ -293,8 +258,7 @@ ALTER TABLE `fornecedor`
 ALTER TABLE `inventario`
   ADD PRIMARY KEY (`inventario_id`),
   ADD KEY `produto_id` (`produto_id`),
-  ADD KEY `localizacao_id` (`localizacao_id`),
-  ADD KEY `fk_operador` (`operador_id`);
+  ADD KEY `localizacao_id` (`localizacao_id`);
 
 --
 -- Índices de tabela `localizacao`
@@ -367,7 +331,7 @@ ALTER TABLE `fornecedor`
 -- AUTO_INCREMENT de tabela `inventario`
 --
 ALTER TABLE `inventario`
-  MODIFY `inventario_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `inventario_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `localizacao`
@@ -391,7 +355,7 @@ ALTER TABLE `operador`
 -- AUTO_INCREMENT de tabela `produto`
 --
 ALTER TABLE `produto`
-  MODIFY `produto_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `produto_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `recebimento`
@@ -426,7 +390,6 @@ ALTER TABLE `estoque`
 -- Restrições para tabelas `inventario`
 --
 ALTER TABLE `inventario`
-  ADD CONSTRAINT `fk_operador` FOREIGN KEY (`operador_id`) REFERENCES `operador` (`operador_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `inventario_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`produto_id`),
   ADD CONSTRAINT `inventario_ibfk_2` FOREIGN KEY (`localizacao_id`) REFERENCES `localizacao` (`localizacao_id`);
 

@@ -1,38 +1,17 @@
-
-#navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
+h1 {
+    color: #fff;
 }
 
-#system-name {
-    font-size: 24px;
-    margin: 0;
-}
-
-#nav {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.nav-item {
-    margin-left: 20px;
-}
-
-.nav-item a {
-    color: white;
-    text-decoration: none;
-}
-
+/* Estilos para o formulário */
 form {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
     margin-top: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    margin-left: 220px;
+    /* Ajuste para o formulário não sobrepor a barra de navegação */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra leve */
 }
 
 label {
@@ -41,7 +20,9 @@ label {
     font-weight: bold;
 }
 
-select, input[type="number"], input[type="date"] {
+select,
+input[type="number"],
+input[type="date"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -50,7 +31,8 @@ select, input[type="number"], input[type="date"] {
 }
 
 button {
-    background-color: #007bff; /* Cor do botão */
+    background-color: #007bff;
+    /* Cor do botão */
     color: white;
     border: none;
     padding: 10px 15px;
@@ -60,5 +42,6 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3; /* Efeito de hover no botão */
+    background-color: #0056b3;
+    /* Efeito de hover no botão */
 }

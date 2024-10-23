@@ -20,6 +20,8 @@
                 <li class="nav-item"><a href="buscarProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
                 <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
+                <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
                 <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
@@ -42,9 +44,13 @@
                 }
 
                 if (isset($produto) && is_array($produto)) {
+                    // Debug: Verifique os dados do produto
+                    echo '<pre>';
+                    print_r($produto); // Verifique a estrutura do produto
+                    echo '</pre>';
             ?>
                     <div class="form-main">
-                        <input type="hidden" name="codigo" value="<?php echo htmlspecialchars($produto['produto_id']); ?>">
+                        <input type="hidden" name="produto_id" value="<?php echo htmlspecialchars($produto['produto_id']); ?>">
 
                         <div class="input-column">
                             <div class="input-group">
@@ -52,16 +58,8 @@
                                 <input type="text" id="nome" name="nome" value="<?php echo htmlspecialchars($produto['nome']); ?>" required>
                             </div>
                             <div class="input-group">
-                                <label for="codBarras">Código de Barras</label>
-                                <input type="text" id="codBarras" name="codBarras" value="<?php echo htmlspecialchars($produto['codigo_barras']); ?>" required>
-                            </div>
-                            <div class="input-group">
-                                <label for="valorVenda">Valor de Venda</label>
-                                <input type="number" step="0.01" id="valorVenda" name="valorVenda" value="<?php echo htmlspecialchars($produto['preco_venda']); ?>" required>
-                            </div>
-                            <div class="input-group">
-                                <label for="valorCusto">Valor de Custo</label>
-                                <input type="number" step="0.01" id="valorCusto" name="valorCusto" value="<?php echo htmlspecialchars($produto['preco_custo']); ?>" required>
+                                <label for="codigo_barras">Código de Barras</label>
+                                <input type="text" id="codigo_barras" name="codigo_barras" value="<?php echo htmlspecialchars($produto['codigo_barras']); ?>" required>
                             </div>
                         </div>
 
@@ -74,20 +72,16 @@
                                 <label for="marca">Marca</label>
                                 <input type="text" id="marca" name="marca" value="<?php echo htmlspecialchars($produto['marca']); ?>" required>
                             </div>
-                            <div class="input-group">
-                                <label for="descricao">Descrição</label>
-                                <textarea id="descricao" name="descricao" required><?php echo htmlspecialchars($produto['descricao']); ?></textarea>
-                            </div>
                         </div>
 
                         <div class="input-column">
                             <div class="input-group">
-                                <label for="numeroLote">Número do Lote</label>
-                                <input type="text" id="numeroLote" name="numeroLote" value="<?php echo htmlspecialchars($produto['numero_lote']); ?>" required>
+                                <label for="numero_lote">Número do Lote</label>
+                                <input type="text" id="numero_lote" name="numero_lote" value="<?php echo htmlspecialchars($produto['numero_lote']); ?>" required>
                             </div>
                             <div class="input-group">
-                                <label for="numeroSerie">Número de Série</label>
-                                <input type="text" id="numeroSerie" name="numeroSerie" value="<?php echo htmlspecialchars($produto['numero_serie']); ?>" required>
+                                <label for="numero_serie">Número de Série</label>
+                                <input type="text" id="numero_serie" name="numero_serie" value="<?php echo htmlspecialchars($produto['numero_serie']); ?>" required>
                             </div>
                             <div class="input-group">
                                 <label for="dimensoes">Dimensões</label>
@@ -97,16 +91,16 @@
 
                         <div class="input-column">
                             <div class="input-group">
-                                <label for="dataFabricacao">Data de Fabricação</label>
-                                <input type="date" id="dataFabricacao" name="dataFabricacao" value="<?php echo htmlspecialchars($produto['data_fabricacao']); ?>" required>
+                                <label for="data_fabricacao">Data de Fabricação</label>
+                                <input type="date" id="data_fabricacao" name="data_fabricacao" value="<?php echo htmlspecialchars($produto['data_fabricacao']); ?>" required>
                             </div>
                             <div class="input-group">
-                                <label for="dataValidade">Data de Validade</label>
-                                <input type="date" id="dataValidade" name="dataValidade" value="<?php echo htmlspecialchars($produto['data_validade']); ?>" required>
+                                <label for="data_validade">Data de Validade</label>
+                                <input type="date" id="data_validade" name="data_validade" value="<?php echo htmlspecialchars($produto['data_validade']); ?>" required>
                             </div>
                             <div class="input-group">
-                                <label for="fornecedorId">Fornecedor ID</label>
-                                <input type="text" id="fornecedorId" name="fornecedorId" value="<?php echo htmlspecialchars($produto['fornecedor_id']); ?>" required>
+                                <label for="fornecedor_id">Fornecedor ID</label>
+                                <input type="text" id="fornecedor_id" name="fornecedor_id" value="<?php echo htmlspecialchars($produto['fornecedor_id']); ?>" required>
                             </div>
                         </div>
 
@@ -124,33 +118,48 @@
                                 <input type="text" id="endereco" name="endereco" value="<?php echo htmlspecialchars($produto['endereco']); ?>" required>
                             </div>
                             <div class="input-group">
-                                <label for="quantidadeReservada">Quantidade Reservada</label>
-                                <input type="number" id="quantidadeReservada" name="quantidadeReservada" value="<?php echo htmlspecialchars($produto['quantidade_reservada']); ?>" required>
-                            </div>
-                            <div class="input-group">
-                                <label for="statusProduto">Status do Produto</label>
-                                <select id="statusProduto" name="statusProduto" required>
-                                    <option value="ativo" <?php echo ($produto['status_produto'] == 'ativo') ? 'selected' : ''; ?>>Disponível</option>
-                                    <option value="disponivel" <?php echo ($produto['status_produto'] == 'disponivel') ? 'selected' : ''; ?>>Disponível</option>
-                                    <option value="reservado" <?php echo ($produto['status_produto'] == 'reservado') ? 'selected' : ''; ?>>Reservado</option>
-                                    <option value="descontinuado" <?php echo ($produto['status_produto'] == 'descontinuado') ? 'selected' : ''; ?>>Descontinuado</option>
-                                </select>
+                                <label for="quantidade_reservada">Quantidade Reservada</label>
+                                <input type="number" id="quantidade_reservada" name="quantidade_reservada" value="<?php echo htmlspecialchars($produto['quantidade_reservada']); ?>" required>
                             </div>
                         </div>
 
-                        <div class="botao">
-                            <button type="submit" class="btn">Salvar Alterações</button>
-                            <a href="../view/listaProduto.php" class="btn">Voltar</a>
+                        <div class="input-column">
+                            <div class="input-group">
+                                <label>Corredor:</label>
+                                <input type="text" name="corredor" value="<?php echo htmlspecialchars($produto['corredor']); ?>" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="prateleira">Prateleira</label>
+                                <input type="text" id="prateleira" name="prateleira" value="<?php echo htmlspecialchars($produto['prateleira']); ?>" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="nivel">Nível</label>
+                                <input type="text" id="nivel" name="nivel" value="<?php echo htmlspecialchars($produto['nivel']); ?>" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="posicao">Posição</label>
+                                <input type="text" id="posicao" name="posicao" value="<?php echo htmlspecialchars($produto['posicao']); ?>" required>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="form-actions">
+                        <button type="submit">Salvar</button>
+                        <a href="listaProduto.php">Voltar</a>
+                    </div>
             <?php
+                } else {
+                    echo '<p>Produto não encontrado.</p>';
                 }
+            } else {
+                echo '<p>ID do produto não fornecido.</p>';
             }
             ?>
         </form>
 
 
     </main>
+
 </body>
 
 </html>

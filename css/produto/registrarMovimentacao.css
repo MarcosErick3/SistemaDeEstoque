@@ -1,101 +1,63 @@
-#header {
-    background-color: #333;
-    padding: 10px 20px;
-}
 
-#navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-#system-name {
-    color: white;
-    font-size: 24px;
-}
-
-#nav {
-    list-style: none;
-    display: flex;
-    padding: 0;
-}
-
-.nav-item {
-    margin-left: 20px;
-}
-
-.nav-item a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
-    transition: background-color 0.3s;
-}
-
-.nav-item a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
+/* Estilos do formulário */
 form {
-    max-width: 600px;
-    margin: 20px auto;
+    background-color: white;
+    border-radius: 8px;
     padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    margin-left: 220px;
+    /* Espaçamento à esquerda para evitar sobreposição com a barra de navegação */
+    margin-top: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra leve */
 }
 
 label {
     display: block;
-    margin: 10px 0 5px;
+    margin-bottom: 8px;
     font-weight: bold;
 }
 
-input[type="date"],
-input[type="text"],
+select,
 input[type="number"],
-select {
+input[type="date"],
+input[type="text"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 16px;
 }
 
 button {
-    background-color: #45a049;
+    background-color: #007bff;
+    /* Cor do botão */
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
 }
 
+button:hover {
+    background-color: #0056b3;
+    /* Efeito de hover no botão */
+}
+
+/* Estilos da tabela */
 table {
-    width: 100%;
+    width: calc(100% - 240px);
+    /* Largura da tabela considerando a barra de navegação */
+    margin-left: 220px;
+    /* Alinhamento da tabela com o formulário */
     border-collapse: collapse;
-    margin-top: 20px;
+    /* Colapsa as bordas da tabela */
 }
 
 th,
 td {
     border: 1px solid #ccc;
-    padding: 10px;
+    /* Borda da tabela */
+    padding: 8px;
     text-align: left;
-}
-
-th {
-    background-color: #333;
-    color: white;
-}
-
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-tr:hover {
-    background-color: rgba(0, 0, 0, 0.1);
 }

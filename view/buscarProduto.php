@@ -32,7 +32,7 @@ try {
         $produtos = buscarProduto($query);
 
         if (count($produtos) > 0) {
-            $produtoSelecionado = $produtos[0]; 
+            $produtoSelecionado = $produtos[0];
         } else {
             echo '<p>Nenhum produto encontrado para a pesquisa.</p>';
         }
@@ -41,7 +41,6 @@ try {
     die("Erro ao buscar produtos: " . htmlspecialchars($e->getMessage()));
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -66,6 +65,8 @@ try {
                 <li class="nav-item"><a href="buscarProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
                 <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
+                <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
                 <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
@@ -97,7 +98,6 @@ try {
             <article id="detalhes-produto">
                 <?php if ($produtoSelecionado): ?>
                     <p>Nome: <?php echo htmlspecialchars($produtoSelecionado['nome']); ?></p>
-                    <p>Descrição: <?php echo htmlspecialchars($produtoSelecionado['descricao']); ?></p>
                     <p>Categoria: <?php echo htmlspecialchars($produtoSelecionado['categoria']); ?></p>
                     <p>Marca: <?php echo htmlspecialchars($produtoSelecionado['marca']); ?></p>
                     <p>Peso: <?php echo htmlspecialchars($produtoSelecionado['peso']); ?> kg</p>
@@ -108,12 +108,13 @@ try {
                     <p>Fornecedor: <?php echo htmlspecialchars($produtoSelecionado['fornecedor_nome']); ?></p>
                     <p>Data de Fabricação: <?php echo htmlspecialchars($produtoSelecionado['data_fabricacao']); ?></p>
                     <p>Data de Validade: <?php echo htmlspecialchars($produtoSelecionado['data_validade']); ?></p>
-                    <p>Preço de Custo: R$ <?php echo number_format($produtoSelecionado['preco_custo'], 2, ',', '.'); ?></p>
-                    <p>Preço de Venda: R$ <?php echo number_format($produtoSelecionado['preco_venda'], 2, ',', '.'); ?></p>
                     <p>Zona: <?php echo htmlspecialchars($produtoSelecionado['zona']); ?></p>
                     <p>Endereço: <?php echo htmlspecialchars($produtoSelecionado['endereco']); ?></p>
                     <p>Quantidade Reservada: <?php echo htmlspecialchars($produtoSelecionado['quantidade_reservada']); ?></p>
                     <p>Status do Produto: <?php echo htmlspecialchars($produtoSelecionado['status_produto']); ?></p>
+
+                <?php else: ?>
+                    <p>Nenhum produto selecionado.</p>
                 <?php endif; ?>
             </article>
         </section>
@@ -130,6 +131,15 @@ try {
             </div>
         </section>
     </main>
+
+    <script>
+        function exibirInfoProduto(produtoId) {
+            // Lógica para exibir informações do produto com base no produtoId
+            // Por exemplo, você pode fazer uma nova requisição AJAX para buscar os detalhes do produto
+            console.log("Produto ID: " + produtoId);
+            // Aqui você pode implementar a lógica para exibir as informações do produto
+        }
+    </script>
 </body>
 
 </html>
