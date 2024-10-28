@@ -2,7 +2,7 @@
 require_once 'global.php';
 class Produto
 {
-    private $produtoId; // Adicionando o campo produto_id
+    private $produtoId; // Adicionando o campo produto
     private $nome;
     private $categoria;
     private $marca;
@@ -25,7 +25,7 @@ class Produto
 
     // Construtor com parâmetros padrão
     public function __construct(
-        $produtoId = 0, // Adicionando parâmetro para produto_id
+        $produtoId = 0, // Adicionando parâmetro para produto
         $nome = '',
         $categoria = '',
         $marca = '',
@@ -46,7 +46,7 @@ class Produto
         $nivel = '',
         $posicao = ''
     ) {
-        $this->produtoId = $produtoId; // Inicializando produto_id
+        $this->produtoId = $produtoId; // Inicializando produto
         $this->nome = $nome;
         $this->categoria = $categoria;
         $this->marca = $marca;
@@ -72,7 +72,7 @@ class Produto
     public function setProdutoId($produtoId)
     {
         $this->produtoId = $produtoId;
-    } // Método para setar produto_id
+    } // Método para setar produto
     public function setNome($nome)
     {
         $this->nome = $nome;
@@ -154,12 +154,12 @@ class Produto
     public function getProdutoId()
     {
         return $this->produtoId;
-    } // Método para obter produto_id
+    } // Método para obter produto
     public function getNome()
     {
         return $this->nome;
     }
-    public function getCategoria()
+    public function getCategoriaId()
     {
         return $this->categoria;
     }

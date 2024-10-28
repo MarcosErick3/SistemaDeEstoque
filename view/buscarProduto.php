@@ -108,11 +108,8 @@ try {
                     <p>Fornecedor: <?php echo htmlspecialchars($produtoSelecionado['fornecedor_nome']); ?></p>
                     <p>Data de Fabricação: <?php echo htmlspecialchars($produtoSelecionado['data_fabricacao']); ?></p>
                     <p>Data de Validade: <?php echo htmlspecialchars($produtoSelecionado['data_validade']); ?></p>
-                    <p>Zona: <?php echo htmlspecialchars($produtoSelecionado['zona']); ?></p>
-                    <p>Endereço: <?php echo htmlspecialchars($produtoSelecionado['endereco']); ?></p>
                     <p>Quantidade Reservada: <?php echo htmlspecialchars($produtoSelecionado['quantidade_reservada']); ?></p>
                     <p>Status do Produto: <?php echo htmlspecialchars($produtoSelecionado['status_produto']); ?></p>
-
                 <?php else: ?>
                     <p>Nenhum produto selecionado.</p>
                 <?php endif; ?>
@@ -124,13 +121,45 @@ try {
             <div id="mapa">
                 <div class="corredor" id="C1">
                     <div class="prateleira">
-                        <div class="modulo" onclick="exibirInfoProduto('CR1-PR1-NV5-PS1')">CR1-PR1-NV5-PS1</div>
-                        <div class="modulo" onclick="exibirInfoProduto('CR1-PR1-NV5-PS2')">CR1-PR1-NV5-PS2</div>
+                        <div class="modulo" id="CR1-PR1-NV5-PS1" onclick="exibirInfoProduto('CR1-PR1-NV5-PS1')">CR1-PR1-NV5-PS1</div>
+                        <div class="modulo" id="CR1-PR1-NV5-PS2" onclick="exibirInfoProduto('CR1-PR1-NV5-PS2')">CR1-PR1-NV5-PS2</div>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+
+    <script>
+        function exibirInfoProduto(produtoId) {
+            // Lógica para exibir informações do produto com base no produtoId
+            console.log("Produto ID: " + produtoId);
+
+            // Aqui você pode implementar a lógica para exibir as informações do produto
+            // Adicionando destaque na prateleira correspondente ao produto
+            document.querySelectorAll('.modulo').forEach(function(modulo) {
+                modulo.classList.remove('destaque'); // Remove destaque de todos os módulos
+            });
+
+            var moduloSelecionado = document.getElementById(produtoId);
+            if (moduloSelecionado) {
+                moduloSelecionado.classList.add('destaque'); // Adiciona destaque ao módulo selecionado
+            }
+
+            // Fazer a requisição para buscar os detalhes do produto
+            // Aqui você pode usar AJAX ou atualizar a parte do DOM com as informações do produto selecionado
+        }
+    </script>
+
+    <style>
+        /* Adicione esse estilo no CSS para o destaque */
+        .modulo.destaque {
+            background-color: yellow;
+            /* Cor de destaque */
+            border: 2px solid red;
+            /* Borda para chamar atenção */
+        }
+    </style>
+
 
     <script>
         function exibirInfoProduto(produtoId) {

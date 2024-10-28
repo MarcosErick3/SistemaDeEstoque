@@ -58,6 +58,19 @@
         </nav>
     </header>
     <main>
+        <?php
+        require 'global.php'; // Inclua o arquivo global.php aqui
+
+        try {
+            $listaFornecedores = FornecedorDAO::listarFornecedor();
+        } catch (Exception $e) {
+            echo '<pre>';
+            print_r($e);
+            echo '</pre>';
+            echo '<p style="color:red;">' . htmlspecialchars($e->getMessage()) . '</p>';
+        }
+        ?>
+
         <form id="form" action="../controller/cadastroProduto.php" method="post" class="form-main">
             <div class="input-column">
                 <div class="input-group">
@@ -68,13 +81,22 @@
             <div class="input-column">
                 <div class="input-group">
                     <label for="categoria">Categoria</label>
-                    <input type="text" id="categoria" name="categoria" required placeholder="Digite a categoria do produto">
+                    <select name="categoria" id="categoria" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Eletrônicos">Eletrônicos</option>
+                        <option value="Vestuário">Vestuário</option>
+                        <option value="Alimentos">Alimentos</option>
+                        <option value="Móveis">Móveis</option>
+                        <option value="Ferramentas">Ferramentas</option>
+                    </select>
                 </div>
                 <div class="input-group">
                     <label for="marca">Marca</label>
                     <input type="text" id="marca" name="marca" required placeholder="Digite a marca do produto">
                 </div>
             </div>
+
+
             <div class="input-column">
                 <div class="input-group">
                     <label for="peso">Peso (kg)</label>
@@ -102,19 +124,7 @@
                 </div>
                 <div class="input-group">
                     <label for="fornecedor_id">Fornecedor</label>
-                    <?php
-                    require 'global.php';
-                    try {
-                        $listaFornecedores = FornecedorDAO::listarFornecedor();
-                    } catch (Exception $e) {
-                        echo '<pre>';
-                        print_r($e);
-                        echo '</pre>';
-                        echo '<p style="color:red;">' . htmlspecialchars($e->getMessage()) . '</p>';
-                    }
-
-                    if (isset($listaFornecedores) && !empty($listaFornecedores)) {
-                    ?>
+                    <?php if (isset($listaFornecedores) && !empty($listaFornecedores)) { ?>
                         <select name="fornecedor_id" id="fornecedor_id" required>
                             <option value="">Selecione um Fornecedor</option>
                             <?php foreach ($listaFornecedores as $listaFornecedor) { ?>
@@ -140,16 +150,6 @@
             </div>
             <div class="input-column">
                 <div class="input-group">
-                    <label for="zona">Zona</label>
-                    <input type="text" id="zona" name="zona" required placeholder="Digite a zona de armazenamento">
-                </div>
-                <div class="input-group">
-                    <label for="endereco">Endereço</label>
-                    <input type="text" id="endereco" name="endereco" required placeholder="Digite o endereço de armazenamento">
-                </div>
-            </div>
-            <div class="input-column">
-                <div class="input-group">
                     <label for="quantidadeReservada">Quantidade Reservada</label>
                     <input type="number" id="quantidadeReservada" name="quantidade_reservada" required min="0" value="0" placeholder="Ex: 10">
                 </div>
@@ -168,6 +168,7 @@
                 <button type="reset" class="btn btn-clear">Limpar</button>
             </div>
         </form>
+
 
 
     </main>
