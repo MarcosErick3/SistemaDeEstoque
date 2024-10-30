@@ -14,60 +14,9 @@ class Produto
     private $fornecedorId;
     private $dataFabricacao;
     private $dataValidade;
-    private $zona;
-    private $endereco;
-    private $quantidadeReservada;
+
+    private $quantidade_reservada;
     private $statusProduto;
-    private $corredor;
-    private $prateleira;
-    private $nivel;
-    private $posicao;
-
-    // Construtor com parâmetros padrão
-    public function __construct(
-        $produtoId = 0, // Adicionando parâmetro para produto
-        $nome = '',
-        $categoria = '',
-        $marca = '',
-        $peso = 0.0,
-        $dimensoes = '',
-        $numeroLote = '',
-        $numeroSerie = '',
-        $codigoBarras = '',
-        $fornecedorId = 0,
-        $dataFabricacao = '',
-        $dataValidade = '',
-        $zona = '',
-        $endereco = '',
-        $quantidadeReservada = 0,
-        $statusProduto = '',
-        $corredor = '',
-        $prateleira = '',
-        $nivel = '',
-        $posicao = ''
-    ) {
-        $this->produtoId = $produtoId; // Inicializando produto
-        $this->nome = $nome;
-        $this->categoria = $categoria;
-        $this->marca = $marca;
-        $this->peso = $peso;
-        $this->dimensoes = $dimensoes;
-        $this->numeroLote = $numeroLote;
-        $this->numeroSerie = $numeroSerie;
-        $this->codigoBarras = $codigoBarras;
-        $this->fornecedorId = $fornecedorId;
-        $this->dataFabricacao = $dataFabricacao;
-        $this->dataValidade = $dataValidade;
-        $this->zona = $zona;
-        $this->endereco = $endereco;
-        $this->quantidadeReservada = $quantidadeReservada;
-        $this->statusProduto = $statusProduto;
-        $this->corredor = $corredor;
-        $this->prateleira = $prateleira;
-        $this->nivel = $nivel;
-        $this->posicao = $posicao;
-    }
-
     // Métodos set
     public function setProdutoId($produtoId)
     {
@@ -117,37 +66,13 @@ class Produto
     {
         $this->dataValidade = $dataValidade;
     }
-    public function setZona($zona)
+    public function setQuantidade_reservada($quantidade_reservada)
     {
-        $this->zona = $zona;
-    }
-    public function setEndereco($endereco)
-    {
-        $this->endereco = $endereco;
-    }
-    public function setQuantidadeReservada($quantidadeReservada)
-    {
-        $this->quantidadeReservada = $quantidadeReservada;
+        $this->quantidade_reservada = $quantidade_reservada;
     }
     public function setStatusProduto($statusProduto)
     {
         $this->statusProduto = $statusProduto;
-    }
-    public function setCorredor($corredor)
-    {
-        $this->corredor = $corredor;
-    }
-    public function setPrateleira($prateleira)
-    {
-        $this->prateleira = $prateleira;
-    }
-    public function setNivel($nivel)
-    {
-        $this->nivel = $nivel;
-    }
-    public function setPosicao($posicao)
-    {
-        $this->posicao = $posicao;
     }
 
     // Métodos get
@@ -193,42 +118,24 @@ class Produto
     }
     public function getDataFabricacao()
     {
-        return $this->dataFabricacao;
+        // Certifique-se de que a data está no formato correto
+        $data = $this->dataFabricacao; // Supondo que você tenha uma propriedade
+        $dateTime = DateTime::createFromFormat('Y-m-d', $data);
+        return $dateTime ? $dateTime->format('Y-m-d') : null; // Retorna nulo se o formato estiver errado
     }
     public function getDataValidade()
     {
-        return $this->dataValidade;
+        $data = $this->dataValidade; // Supondo que você tenha uma propriedade
+        $dateTime = DateTime::createFromFormat('Y-m-d', $data);
+        return $dateTime ? $dateTime->format('Y-m-d') : null; // Retorna nulo se o formato estiver errado
     }
-    public function getZona()
+    
+    public function getQuantidade_reservada()
     {
-        return $this->zona;
-    }
-    public function getEndereco()
-    {
-        return $this->endereco;
-    }
-    public function getQuantidadeReservada()
-    {
-        return $this->quantidadeReservada;
+        return $this->quantidade_reservada;
     }
     public function getStatusProduto()
     {
         return $this->statusProduto;
-    }
-    public function getCorredor()
-    {
-        return $this->corredor;
-    }
-    public function getPrateleira()
-    {
-        return $this->prateleira;
-    }
-    public function getNivel()
-    {
-        return $this->nivel;
-    }
-    public function getPosicao()
-    {
-        return $this->posicao;
     }
 }

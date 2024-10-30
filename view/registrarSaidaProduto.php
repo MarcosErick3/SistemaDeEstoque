@@ -47,8 +47,7 @@
             <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
-                <li class="nav-item"><a href="listaProduto.php">Lista de Produtos</a></li>
-                <li class="nav-item"><a href="buscarProduto.php">Buscar Produtos</a></li>
+                <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
                 <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>

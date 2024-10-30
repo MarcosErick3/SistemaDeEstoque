@@ -46,8 +46,7 @@
             <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
-                <li class="nav-item"><a href="listaProduto.php">Lista de Produtos</a></li>
-                <li class="nav-item"><a href="buscarProduto.php">Buscar Produtos</a></li>
+                <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
                 <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
@@ -95,8 +94,6 @@
                     <input type="text" id="marca" name="marca" required placeholder="Digite a marca do produto">
                 </div>
             </div>
-
-
             <div class="input-column">
                 <div class="input-group">
                     <label for="peso">Peso (kg)</label>
@@ -150,8 +147,8 @@
             </div>
             <div class="input-column">
                 <div class="input-group">
-                    <label for="quantidadeReservada">Quantidade Reservada</label>
-                    <input type="number" id="quantidadeReservada" name="quantidade_reservada" required min="0" value="0" placeholder="Ex: 10">
+                <label for="quantidade_reservada">Quantidade Reservada:</label>
+                <input type="number" id="quantidade_reservada" name="quantidade_reservada" required>
                 </div>
                 <div class="input-group">
                     <label for="statusProduto">Status do Produto</label>

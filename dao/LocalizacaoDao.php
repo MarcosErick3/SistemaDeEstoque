@@ -136,4 +136,23 @@ class LocalizacaoDAO
             throw new Exception("Erro ao pesquisar localizações: " . $e->getMessage());
         }
     }
+
+    public static function obterOcupacaoArmazem($nivelCritico)
+    {
+        try {
+            $conexao = Conexao::conectar();
+            $sql = "SELECT localizacao_id, corredor, prateleira, coluna, andar, ocupacao_atual, capacidade_total,
+                           (ocupacao_atual / capacidade_total * 100) AS percentual_ocupacao
+                    FROM localizacao
+                    WHERE (ocupacao_atual / capacidade_total * 100) >= :nivel_critico
+                    LIMIT 25";
+
+            $stmt = $conexao->prepare($sql);
+            $stmt->bindParam(':nivel_critico', $nivelCritico, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception('Erro ao buscar ocupação do armazém: ' . $e->getMessage());
+        }
+    }
 }

@@ -3,74 +3,83 @@ require_once "global.php";
 
 class ProdutoDAO
 {
-    public static function cadastrar(Produto $produto)
+    public static function cadastrar($produto)
     {
-        try {
-            $conexao = Conexao::conectar();
+        // Conectando ao banco de dados
+        $conexao = Conexao::conectar();
 
-            $queryInsert = "INSERT INTO produto 
-                    (nome, categoria, marca, peso, dimensoes, numero_lote, numero_serie, codigo_barras, fornecedor_id, 
-                     data_fabricacao, data_validade, quantidade_reservada, status_produto) 
-                    VALUES 
-                    (:nome, :categoria, :marca, :peso, :dimensoes, :numero_lote, :numero_serie, :codigo_barras, 
-                     :fornecedor_id, :data_fabricacao, :data_validade, :quantidade_reservada, 
-                     :status_produto)";
-
-            $stmt = $conexao->prepare($queryInsert);
-
-            // Bind dos parâmetros
-            $stmt->bindValue(':nome', $produto->getNome());
-            $stmt->bindValue(':categoria', $produto->getCategoriaId());
-            $stmt->bindValue(':marca', $produto->getMarca());
-            $stmt->bindValue(':peso', $produto->getPeso());
-            $stmt->bindValue(':dimensoes', $produto->getDimensoes());
-            $stmt->bindValue(':numero_lote', $produto->getNumeroLote());
-            $stmt->bindValue(':numero_serie', $produto->getNumeroSerie());
-            $stmt->bindValue(':codigo_barras', $produto->getCodigoBarras());
-            $stmt->bindValue(':fornecedor_id', $produto->getFornecedorId());
-            $stmt->bindValue(':data_fabricacao', $produto->getDataFabricacao());
-            $stmt->bindValue(':data_validade', $produto->getDataValidade());
-            $stmt->bindValue(':quantidade_reservada', $produto->getQuantidadeReservada());
-            $stmt->bindValue(':status_produto', $produto->getStatusProduto());
-
-            $stmt->execute();
-            return $conexao->lastInsertId();
-        } catch (PDOException $e) {
-            throw new Exception('Erro ao cadastrar o produto: ' . $e->getMessage());
+        // Verifica se a conexão foi bem-sucedida
+        if (!$conexao) {
+            throw new Exception("Erro ao conectar ao banco de dados.");
         }
+
+        // Prepara a consulta SQL
+        $sql = "INSERT INTO produto (nome, marca, peso, dimensoes, numero_lote, numero_serie, codigo_barras, 
+                                      fornecedor_id, data_fabricacao, data_validade, quantidade_reservada, 
+                                      status_produto, categoria) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        // Usa o objeto de conexão para preparar a declaração
+        $stmt = $conexao->prepare($sql);
+
+        // Bind de parâmetros
+        $stmt->bindValue(1, $produto->getNome());
+        $stmt->bindValue(2, $produto->getMarca());
+        $stmt->bindValue(3, $produto->getPeso());
+        $stmt->bindValue(4, $produto->getDimensoes());
+        $stmt->bindValue(5, $produto->getNumeroLote());
+        $stmt->bindValue(6, $produto->getNumeroSerie());
+        $stmt->bindValue(7, $produto->getCodigoBarras());
+        $stmt->bindValue(8, $produto->getFornecedorId());
+        $stmt->bindValue(9, $produto->getDataFabricacao()); // Verifique o formato
+        $stmt->bindValue(10, $produto->getDataValidade()); // Verifique o formato
+        $stmt->bindValue(11, $produto->getQuantidade_reservada()); // Verifique se este método está correto
+        $stmt->bindValue(12, $produto->getStatusProduto());
+        $stmt->bindValue(13, $produto->getCategoriaId()); // Corrigido para getCategoria()
+
+        // Executa a declaração
+        if (!$stmt->execute()) {
+            throw new Exception("Erro ao cadastrar o produto: " . implode(", ", $stmt->errorInfo()));
+        }
+
+        // Retorna o ID do produto inserido
+        return $conexao->lastInsertId(); // Use lastInsertId() para retornar o ID do novo produto
     }
+
+
+
+
+
 
 
     public static function atualizarLocalizacao($produto_id, $localizacao_id)
     {
-        // Conectar ao banco de dados
         $conexao = Conexao::conectar();
 
-        // Iniciar uma transação
-        $conexao->beginTransaction();
+        // Consulta SQL para atualizar a localização do produto
+        $sql = "INSERT INTO estoque (produto_id, localizacao_id) VALUES (?, ?) 
+                ON DUPLICATE KEY UPDATE localizacao_id = ?";
+        $stmt = $conexao->prepare($sql);
 
-        try {
-            // Inserir a nova localização do produto na tabela produto_localizacao
-            $sql = "INSERT INTO produto_localizacao (produto_id, localizacao_id) VALUES (:produto_id, :localizacao_id)";
-            $stmt = $conexao->prepare($sql);
-            $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
-            $stmt->bindParam(':localizacao_id', $localizacao_id, PDO::PARAM_INT);
-            $stmt->execute();
+        // Verifica se a preparação da consulta falhou
+        if (!$stmt) {
+            throw new Exception("Erro na preparação da consulta: " . implode(", ", $conexao->errorInfo()));
+        }
 
-            // Atualizar a ocupação atual na tabela localizacao
-            $sql = "UPDATE localizacao SET ocupacao_atual = ocupacao_atual + 1 WHERE localizacao_id = :localizacao_id";
-            $stmt = $conexao->prepare($sql);
-            $stmt->bindParam(':localizacao_id', $localizacao_id, PDO::PARAM_INT);
-            $stmt->execute();
+        // Execute a declaração com os parâmetros
+        $params = [$produto_id, $localizacao_id, $localizacao_id]; // Atualizando apenas o localizacao_id
+        $success = $stmt->execute($params);
 
-            // Confirmar a transação
-            $conexao->commit();
-        } catch (Exception $e) {
-            // Reverter a transação em caso de erro
-            $conexao->rollBack();
-            throw $e; // Relançar a exceção para tratamento posterior
+        if (!$success) {
+            throw new Exception("Erro ao atualizar a localização: " . implode(", ", $stmt->errorInfo())); // Converte o erro em uma string
         }
     }
+
+
+
+
+
+
 
 
     public static function listarProduto()
@@ -132,7 +141,7 @@ class ProdutoDAO
                 peso = :peso, 
                 zona = :zona, 
                 endereco = :endereco, 
-                quantidade_reservada = :quantidade_reservada, 
+                quantidade = :quantidade, 
                 corredor = :corredor, 
                 prateleira = :prateleira, 
                 nivel = :nivel, 
@@ -152,13 +161,6 @@ class ProdutoDAO
             $stmt->bindValue(':data_validade', $produto->getDataValidade(), PDO::PARAM_STR);
             $stmt->bindValue(':fornecedor_id', $produto->getFornecedorId(), PDO::PARAM_INT);
             $stmt->bindValue(':peso', $produto->getPeso(), PDO::PARAM_STR);
-            $stmt->bindValue(':zona', $produto->getZona(), PDO::PARAM_STR);
-            $stmt->bindValue(':endereco', $produto->getEndereco(), PDO::PARAM_STR);
-            $stmt->bindValue(':quantidade_reservada', $produto->getQuantidadeReservada(), PDO::PARAM_INT);
-            $stmt->bindValue(':corredor', $produto->getCorredor(), PDO::PARAM_STR);
-            $stmt->bindValue(':prateleira', $produto->getPrateleira(), PDO::PARAM_STR);
-            $stmt->bindValue(':nivel', $produto->getNivel(), PDO::PARAM_STR);
-            $stmt->bindValue(':posicao', $produto->getPosicao(), PDO::PARAM_STR);
 
             return $stmt->execute();
         } catch (PDOException $e) {
@@ -246,7 +248,7 @@ class ProdutoDAO
         try {
             $conexao = Conexao::conectar();
             $sql = '
-                SELECT p.nome, p.quantidade_reservada, p.status_produto, l.zona, l.endereco
+                SELECT p.nome, p.quantidade, p.status_produto, l.zona, l.endereco
                 FROM produto p
                 INNER JOIN localizacao l ON p.localizacao_id = l.localizacao_id
                 WHERE l.localizacao_id = :localizacao_id';

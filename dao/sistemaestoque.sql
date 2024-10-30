@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 28/10/2024 às 02:37
+-- Tempo de geração: 29/10/2024 às 03:46
 -- Versão do servidor: 8.0.39
 -- Versão do PHP: 8.2.12
 
@@ -36,6 +36,14 @@ CREATE TABLE `estoque` (
   `nivel_atual` int DEFAULT NULL,
   `alerta_critico` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `estoque`
+--
+
+INSERT INTO `estoque` (`estoque_id`, `produto_id`, `quantidade`, `localizacao_id`, `nivel_minimo`, `nivel_atual`, `alerta_critico`) VALUES
+(1, 26, 0, NULL, 10, 0, 1),
+(2, 27, 0, NULL, 10, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -103,12 +111,12 @@ CREATE TABLE `localizacao` (
 
 INSERT INTO `localizacao` (`localizacao_id`, `corredor`, `prateleira`, `coluna`, `andar`, `capacidade_total`, `ocupacao_atual`) VALUES
 (15, 'A', '1', '1', 1, 50, 0),
-(16, 'A', '1', '2', 1, 50, 0),
-(17, 'A', '1', '3', 1, 50, 0),
+(16, 'A', '1', '2', 1, 50, 1),
+(17, 'A', '1', '3', 1, 50, 1),
 (18, 'B', '2', '1', 2, 75, 0),
 (19, 'B', '2', '2', 2, 75, 1),
 (20, 'C', '3', '1', 3, 100, 10),
-(21, 'C', '3', '2', 3, 100, 20),
+(21, 'C', '3', '2', 3, 100, 22),
 (22, 'D', '4', '1', 4, 80, 5);
 
 -- --------------------------------------------------------
@@ -119,13 +127,13 @@ INSERT INTO `localizacao` (`localizacao_id`, `corredor`, `prateleira`, `coluna`,
 
 CREATE TABLE `movimentacao` (
   `movimentacao_id` int NOT NULL,
-  `produto_id` int DEFAULT NULL,
-  `localizacao_origem_id` int DEFAULT NULL,
-  `localizacao_destino_id` int DEFAULT NULL,
-  `data_movimentacao` datetime DEFAULT CURRENT_TIMESTAMP,
-  `operador_id` int DEFAULT NULL,
-  `motivo` varchar(255) DEFAULT NULL,
-  `quantidade_movimentada` int DEFAULT NULL
+  `produto_id` int NOT NULL,
+  `localizacao_origem_id` int NOT NULL,
+  `localizacao_destino_id` int NOT NULL,
+  `data_movimentacao` datetime NOT NULL,
+  `operador_id` int NOT NULL,
+  `motivo` varchar(255) NOT NULL,
+  `quantidade_movimentada` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -166,14 +174,8 @@ CREATE TABLE `produto` (
   `fornecedor_id` int DEFAULT NULL,
   `data_fabricacao` date DEFAULT NULL,
   `data_validade` date DEFAULT NULL,
-  `zona` varchar(100) DEFAULT NULL,
-  `endereco` varchar(255) DEFAULT NULL,
   `quantidade_reservada` int DEFAULT '0',
   `status_produto` varchar(50) DEFAULT 'Disponível',
-  `corredor` varchar(50) NOT NULL,
-  `prateleira` varchar(50) NOT NULL,
-  `nivel` varchar(50) NOT NULL,
-  `posicao` varchar(50) NOT NULL,
   `categoria` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -181,8 +183,10 @@ CREATE TABLE `produto` (
 -- Despejando dados para a tabela `produto`
 --
 
-INSERT INTO `produto` (`produto_id`, `nome`, `marca`, `peso`, `dimensoes`, `numero_lote`, `numero_serie`, `codigo_barras`, `fornecedor_id`, `data_fabricacao`, `data_validade`, `zona`, `endereco`, `quantidade_reservada`, `status_produto`, `corredor`, `prateleira`, `nivel`, `posicao`, `categoria`) VALUES
-(23, 'Adidas', 'Adidas', 18.00, '18x18x10', '82371831', '987219179', '81381718218', 1, '2004-07-02', '2024-07-02', '119', '19238', 192, 'Disponível', '', '', '', '', 'Vestuário');
+INSERT INTO `produto` (`produto_id`, `nome`, `marca`, `peso`, `dimensoes`, `numero_lote`, `numero_serie`, `codigo_barras`, `fornecedor_id`, `data_fabricacao`, `data_validade`, `quantidade_reservada`, `status_produto`, `categoria`) VALUES
+(25, 'Nike', 'Nike', 989.00, '89908', '98', '98', '980', 1, '2004-07-02', '2204-07-02', 82, 'Disponível', 'Eletrônicos'),
+(26, 'Adidas', 'Adidas', 123.00, '1231', '1231930', '1923819', '9231823019', 1, '2919-02-19', '2922-12-09', 921, 'Disponível', 'Vestuário'),
+(27, 'a', 'a', 2.00, '2', '2313', '131', '23132', 1, '1111-11-11', '1111-11-11', 11, 'Disponível', 'Vestuário');
 
 -- --------------------------------------------------------
 
@@ -201,7 +205,9 @@ CREATE TABLE `produto_localizacao` (
 --
 
 INSERT INTO `produto_localizacao` (`id`, `produto_id`, `localizacao_id`) VALUES
-(20, 23, 19);
+(22, 25, 17),
+(23, 26, 21),
+(24, 27, 21);
 
 -- --------------------------------------------------------
 
@@ -289,7 +295,8 @@ ALTER TABLE `movimentacao`
   ADD PRIMARY KEY (`movimentacao_id`),
   ADD KEY `produto_id` (`produto_id`),
   ADD KEY `localizacao_origem_id` (`localizacao_origem_id`),
-  ADD KEY `localizacao_destino_id` (`localizacao_destino_id`);
+  ADD KEY `localizacao_destino_id` (`localizacao_destino_id`),
+  ADD KEY `operador_id` (`operador_id`);
 
 --
 -- Índices de tabela `operador`
@@ -343,7 +350,7 @@ ALTER TABLE `saida`
 -- AUTO_INCREMENT de tabela `estoque`
 --
 ALTER TABLE `estoque`
-  MODIFY `estoque_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `estoque_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedor`
@@ -367,7 +374,7 @@ ALTER TABLE `localizacao`
 -- AUTO_INCREMENT de tabela `movimentacao`
 --
 ALTER TABLE `movimentacao`
-  MODIFY `movimentacao_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `movimentacao_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `operador`
@@ -379,13 +386,13 @@ ALTER TABLE `operador`
 -- AUTO_INCREMENT de tabela `produto`
 --
 ALTER TABLE `produto`
-  MODIFY `produto_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `produto_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de tabela `produto_localizacao`
 --
 ALTER TABLE `produto_localizacao`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de tabela `recebimento`
@@ -429,7 +436,8 @@ ALTER TABLE `inventario`
 ALTER TABLE `movimentacao`
   ADD CONSTRAINT `movimentacao_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`produto_id`),
   ADD CONSTRAINT `movimentacao_ibfk_2` FOREIGN KEY (`localizacao_origem_id`) REFERENCES `localizacao` (`localizacao_id`),
-  ADD CONSTRAINT `movimentacao_ibfk_3` FOREIGN KEY (`localizacao_destino_id`) REFERENCES `localizacao` (`localizacao_id`);
+  ADD CONSTRAINT `movimentacao_ibfk_3` FOREIGN KEY (`localizacao_destino_id`) REFERENCES `localizacao` (`localizacao_id`),
+  ADD CONSTRAINT `movimentacao_ibfk_4` FOREIGN KEY (`operador_id`) REFERENCES `operador` (`operador_id`);
 
 --
 -- Restrições para tabelas `produto`

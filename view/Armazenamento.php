@@ -93,25 +93,13 @@ $localizacoes = LocalizacaoDao::ListarLocalizacao();
 $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o produtoId da URL
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selecione o Local de Armazenamento</title>
-    <link rel="stylesheet" href="../css/header.css">
-    <link rel="stylesheet" href="../css/index.css">
-</head>
-
 <body>
     <header id="header">
         <nav id="navbar">
             <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
-                <li class="nav-item"><a href="listaProduto.php">Lista de Produtos</a></li>
-                <li class="nav-item"><a href="buscarProduto.php">Buscar Produtos</a></li>
+                <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
                 <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
@@ -121,12 +109,6 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
             </ul>
         </nav>
     </header>
-    <nav class="menu" id="menu">
-        <h2>Menu</h2>
-        <ul>
-            <!-- Lista de menus -->
-        </ul>
-    </nav>
 
     <div class="container">
         <h1>Selecione o Local de Armazenamento</h1>
@@ -179,65 +161,21 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
             </div>
 
             <div class="buttons">
-                <!-- Botão para cancelar a seleção -->
                 <button type="button" id="btn-cancelar">Cancelar</button>
-                <!-- Botão para confirmar a seleção e submeter o formulário -->
                 <button type="submit" id="btn-ok">Ok</button>
             </div>
         </form>
 
+
+
+
         <script>
             function updateSelectedLocation(radio) {
-                const selectedCorredor = radio.dataset.corredor;
-                const selectedPrateleira = radio.dataset.prateleira;
-                const selectedColuna = radio.dataset.coluna;
-                const selectedAndar = radio.dataset.andar;
-                const selectedCapacidade = radio.dataset.capacidade;
-                const selectedOcupacao = radio.dataset.ocupacao;
-
-                // Cria um campo oculto para enviar as informações da localização
-                let form = document.getElementById("form-locacao");
-                // Remove os campos ocultos existentes (caso haja)
-                const existingInputs = form.querySelectorAll("input[type='hidden'].location-info");
-                existingInputs.forEach(input => input.remove());
-
-                // Adiciona os campos ocultos com os dados da localização
-                const fields = [{
-                        name: 'corredor',
-                        value: selectedCorredor
-                    },
-                    {
-                        name: 'prateleira',
-                        value: selectedPrateleira
-                    },
-                    {
-                        name: 'coluna',
-                        value: selectedColuna
-                    },
-                    {
-                        name: 'andar',
-                        value: selectedAndar
-                    },
-                    {
-                        name: 'capacidade_total',
-                        value: selectedCapacidade
-                    },
-                    {
-                        name: 'ocupacao_atual',
-                        value: selectedOcupacao
-                    },
-                ];
-
-                fields.forEach(field => {
-                    const input = document.createElement("input");
-                    input.type = "hidden";
-                    input.name = field.name;
-                    input.value = field.value;
-                    input.className = "location-info"; // Para referência ao remover
-                    form.appendChild(input);
-                });
+                // Atualizar a lógica para manipular a localização selecionada, se necessário
+                console.log("Localização selecionada:", radio.value);
             }
         </script>
+    </div>
 
 </body>
 

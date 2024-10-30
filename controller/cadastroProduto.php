@@ -14,8 +14,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fornecedor_id = $_POST['fornecedor_id'];
     $dataFabricacao = $_POST['data_fabricacao'];
     $dataValidade = $_POST['data_validade'];
-    $quantidadeReservada = $_POST['quantidade_reservada'];
+    $quantidadeReservada = $_POST['quantidade_reservada'] ?? 0; // Use um valor padrão caso não exista
     $statusProduto = $_POST['status_produto'];
+
+    // Validação e formatação das datas
+    try {
+        // Tente criar um objeto DateTime para cada data
+        $dtFabricacao = new DateTime($dataFabricacao);
+        $dtValidade = new DateTime($dataValidade);
+
+        // Formate as datas para o padrão YYYY-MM-DD
+        $dataFabricacao = $dtFabricacao->format('Y-m-d');
+        $dataValidade = $dtValidade->format('Y-m-d');
+    } catch (Exception $e) {
+        echo '<p style="color:red;">Data inválida: ' . htmlspecialchars($e->getMessage()) . '</p>';
+        exit();
+    }
 
     // Criar uma instância do Produto
     $produto = new Produto();
@@ -30,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $produto->setFornecedorId($fornecedor_id);
     $produto->setDataFabricacao($dataFabricacao);
     $produto->setDataValidade($dataValidade);
-    $produto->setQuantidadeReservada($quantidadeReservada);
+    $produto->setQuantidade_reservada($quantidadeReservada); // Corrigido aqui
     $produto->setStatusProduto($statusProduto);
 
     // Chamar o método para inserir o produto
@@ -38,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $produtoId = ProdutoDAO::cadastrar($produto);
 
         // Redirecionar para a página de armazenamento passando o produtoId
-        header("Location: ../view/Armazenamento.php?produtoId=$produtoId");
+        header("Location: ../view/Armazenamento.php?produtoId=" . urlencode($produtoId));
         exit();
     } catch (Exception $e) {
         echo '<pre>';

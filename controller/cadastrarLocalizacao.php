@@ -6,17 +6,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $produto_id = filter_input(INPUT_POST, 'produto_id', FILTER_SANITIZE_NUMBER_INT);
     $localizacao_id = filter_input(INPUT_POST, 'localizacao_id', FILTER_SANITIZE_NUMBER_INT);
 
+    // Debug: verifique os valores recebidos
+    var_dump($produto_id, $localizacao_id);
+
     // Verificar se os IDs são válidos
     if ($produto_id && $localizacao_id) {
         try {
-            // Atualizar a localização e a quantidade reservada
-            ProdutoDAO::atualizarLocalizacao($produto_id, $localizacao_id);
+            // Atualizar a localização
+            ProdutoDAO::atualizarLocalizacao($produto_id, $localizacao_id); // Removido a quantidade aqui
 
             // Redirecionar para a página de sucesso ou para onde desejar
-            header("Location: ../view/Armazenamento.php?produtoId=$produtoId");
+            header("Location: ../view/Armazenamento.php?produtoId=$produto_id"); // Corrigido para usar $produto_id
             exit();
         } catch (Exception $e) {
-            // Exibir uma mensagem de erro ao usuário
             echo '<pre>';
             print_r($e);
             echo '</pre>';
