@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Movimentações Internas</title>
+    <link rel="stylesheet" href="Mov-Interna.css">
+</head>
+<body>
+    <h1>Registro de Movimentações Internas</h1>
+    <div id="movement-form">
+        <label for="product-id">ID do Produto:</label>
+        <input type="text" id="product-id" placeholder="Digite o ID do produto">
+
+        <label for="origin-location">Local de Origem:</label>
+        <input type="text" id="origin-location" placeholder="Digite a localização de origem">
+
+        <label for="destination-location">Local de Destino:</label>
+        <input type="text" id="destination-location" placeholder="Digite a localização de destino">
+
+        <label for="movement-reason">Motivo da Movimentação:</label>
+        <input type="text" id="movement-reason" placeholder="Digite o motivo">
+
+        <button onclick="registerMovement()">Registrar Movimentação</button>
+    </div>
+
+    <div id="movements-log">
+        <h2>Movimentações Registradas</h2>
+        <ul id="log-list"></ul>
+    </div>
+
+    <script src="Mov-Interna.js"></script>
+</body>
+</html>

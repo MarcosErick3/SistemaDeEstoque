@@ -1,6 +1,5 @@
 <?php
 require 'global.php';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Coleta dos dados do formulário
     $produtoId = $_POST['produto_id'];
@@ -15,42 +14,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dataValidade = $_POST['data_validade'];
     $fornecedorId = $_POST['fornecedor_id'];
     $peso = $_POST['peso'];
-    $zona = $_POST['zona'];
-    $endereco = $_POST['endereco'];
     $quantidadeReservada = $_POST['quantidade_reservada'];
-    $corredor = $_POST['corredor'];
-    $prateleira = $_POST['prateleira'];
-    $nivel = $_POST['nivel'];
-    $posicao = $_POST['posicao'];
 
-    // Cria um objeto Produto
-    $produto = new Produto(
-        $produtoId,
-        $nome,
-        $codigoBarras,
-        $categoria,
-        $marca,
-        $numeroLote,
-        $numeroSerie,
-        $dimensoes,
-        $dataFabricacao,
-        $dataValidade,
-        $fornecedorId,
-        $peso,
-        $zona,
-        $endereco,
-        $quantidadeReservada,
-        $corredor,
-        $prateleira,
-        $nivel,
-        $posicao
-    );
+    // Cria um objeto Produto e define os valores usando setters
+    $produto = new Produto();
+    $produto->setProdutoId($produtoId);
+    $produto->setNome($nome);
+    $produto->setCodigoBarras($codigoBarras);
+    $produto->setCategoria($categoria);
+    $produto->setMarca($marca);
+    $produto->setNumeroLote($numeroLote);
+    $produto->setNumeroSerie($numeroSerie);
+    $produto->setDimensoes($dimensoes);
+    $produto->setDataFabricacao($dataFabricacao);
+    $produto->setDataValidade($dataValidade);
+    $produto->setFornecedorId($fornecedorId);
+    $produto->setPeso($peso);
+    $produto->setQuantidade_reservada($quantidadeReservada);
 
-    // Atualiza o produto no banco de dados
     try {
         ProdutoDAO::editarProduto($produto);
-        echo "Produto atualizado com sucesso!";
         header("Location: ../view/listaProduto.php");
+        exit();
     } catch (Exception $e) {
         echo "Erro ao atualizar produto: " . $e->getMessage();
     }

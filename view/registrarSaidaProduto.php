@@ -59,9 +59,6 @@
     </header>
 
     <main>
-        <h2>Registrar Saída de Produto</h2>
-        <p>Para registrar a saída de um produto, selecione o produto desejado, insira a quantidade a ser retirada, escolha o fornecedor e preencha as informações de destino e cliente. Após preencher todos os campos obrigatórios, clique em "Registrar Saída" para salvar as informações.</p>
-
         <!-- Exibir mensagens de sucesso ou erro -->
         <?php
         session_start(); // Certifique-se de que a sessão está iniciada
@@ -77,38 +74,32 @@
 
         <form method="POST" action="../controller/registrarSaida.php">
             <label for="produto_id">Produto:</label>
-            <select name="produto_id" required>
+            <select name="produto_id" id="produto_id" required onchange="atualizarQuantidadeFornecedor(this)">
                 <option value="">Selecione um produto</option>
                 <?php
                 require 'global.php';
-                $conn = Conexao::conectar();
+                $conexao = Conexao::conectar();
 
-                $sql = "SELECT produto_id, nome FROM produto";
-                $stmt = $conn->prepare($sql);
+                // Seleciona o produto, a quantidade reservada e o nome do fornecedor
+                $sql = "SELECT p.produto_id, p.nome, p.quantidade_reservada, f.fornecedor_id, f.nome AS fornecedor_nome 
+                FROM produto p
+                JOIN fornecedor f ON p.fornecedor_id = f.fornecedor_id";
+                $stmt = $conexao->prepare($sql);
                 $stmt->execute();
 
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<option value=\"{$row['produto_id']}\">{$row['nome']}</option>";
+                    echo "<option value=\"{$row['produto_id']}\" 
+                   data-quantidade=\"{$row['quantidade_reservada']}\" 
+                   data-fornecedor-id=\"{$row['fornecedor_id']}\" 
+                   data-fornecedor-nome=\"{$row['fornecedor_nome']}\">{$row['nome']}</option>";
                 }
                 ?>
             </select>
 
             <label for="quantidade">Quantidade:</label>
-            <input type="number" name="quantidade" required min="1">
+            <input type="number" id="quantidade" name="quantidade" required min="1" value="">
 
-            <label for="fornecedor">Fornecedor:</label>
-            <select name="fornecedor" required>
-                <option value="">Selecione um fornecedor</option>
-                <?php
-                $sql = "SELECT fornecedor_id, nome FROM fornecedor";
-                $stmt = $conn->prepare($sql);
-                $stmt->execute();
-
-                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                    echo "<option value=\"{$row['fornecedor_id']}\">{$row['nome']}</option>";
-                }
-                ?>
-            </select>
+            <input type="hidden" id="fornecedor_id" name="fornecedor_id">
 
             <label for="destino">Destino:</label>
             <input type="text" name="destino" required>
@@ -119,6 +110,22 @@
             <button type="submit">Registrar Saída</button>
             <button type="button" class="cancel-button" onclick="window.location.href='listaSaida.php'">Cancelar</button>
         </form>
+
+        <script>
+            function atualizarQuantidadeFornecedor(produtoSelect) {
+                // Obtem os valores dos atributos data
+                const quantidade = produtoSelect.selectedOptions[0].getAttribute("data-quantidade");
+                const fornecedorId = produtoSelect.selectedOptions[0].getAttribute("data-fornecedor-id");
+                const fornecedorNome = produtoSelect.selectedOptions[0].getAttribute("data-fornecedor-nome");
+
+                // Atualiza os campos de quantidade e fornecedor
+                document.getElementById("quantidade").value = quantidade || "";
+                document.getElementById("fornecedor_id").value = fornecedorId || "";
+            }
+        </script>
+
+
+
     </main>
 
 </body>

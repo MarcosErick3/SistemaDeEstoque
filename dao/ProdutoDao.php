@@ -46,10 +46,54 @@ class ProdutoDAO
         return $conexao->lastInsertId(); // Use lastInsertId() para retornar o ID do novo produto
     }
 
-
-
-
-
+    public static function editarProduto($produto)
+    {
+        try {
+            $conexao = Conexao::conectar();
+            $queryUpdate = "UPDATE produto SET nome = :nome, categoria = :categoria, marca = :marca, 
+                            peso = :peso, dimensoes = :dimensoes, numero_lote = :numero_lote, 
+                            numero_serie = :numero_serie, codigo_barras = :codigo_barras, 
+                            fornecedor_id = :fornecedor_id, data_fabricacao = :data_fabricacao, 
+                            data_validade = :data_validade, quantidade_reservada = :quantidade_reservada 
+                            WHERE produto_id = :produto_id";
+            $stmt = $conexao->prepare($queryUpdate);
+            
+            $stmt->bindValue(':nome', $produto->getNome());
+            $stmt->bindValue(':categoria', $produto->getCategoriaId());
+            $stmt->bindValue(':marca', $produto->getMarca());
+            $stmt->bindValue(':peso', $produto->getPeso());
+            $stmt->bindValue(':dimensoes', $produto->getDimensoes());
+            $stmt->bindValue(':numero_lote', $produto->getNumeroLote());
+            $stmt->bindValue(':numero_serie', $produto->getNumeroSerie());
+            $stmt->bindValue(':codigo_barras', $produto->getCodigoBarras());
+            $stmt->bindValue(':fornecedor_id', $produto->getFornecedorId());
+            $stmt->bindValue(':data_fabricacao', $produto->getDataFabricacao());
+            $stmt->bindValue(':data_validade', $produto->getDataValidade());
+            $stmt->bindValue(':quantidade_reservada', $produto->getQuantidade_reservada());
+            $stmt->bindValue(':produto_id', $produto->getProdutoId(), PDO::PARAM_INT);
+    
+            $stmt->execute();
+        } catch (PDOException $e) {
+            throw new Exception("Erro ao atualizar produto: " . $e->getMessage());
+        }
+    }
+    public static function buscarProduto($query)
+    {
+        try {
+            $conexao = Conexao::conectar();
+            $query = "%$query%";
+            $stmt = $conexao->prepare("SELECT p.*, f.nome AS fornecedor_nome 
+                                        FROM produto p 
+                                        LEFT JOIN fornecedor f ON p.fornecedor_id = f.fornecedor_id
+                                        WHERE p.nome LIKE :query
+                                        LIMIT 10");
+            $stmt->bindParam(':query', $query, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception('Erro ao buscar produtos: ' . $e->getMessage());
+        }
+    }
 
 
     public static function atualizarLocalizacao($produto_id, $localizacao_id)
@@ -76,12 +120,6 @@ class ProdutoDAO
     }
 
 
-
-
-
-
-
-
     public static function listarProduto()
     {
         $conexao = Conexao::conectar();
@@ -102,12 +140,17 @@ class ProdutoDAO
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
     public static function buscarProdutoPorId($codigo)
     {
         try {
             $conexao = Conexao::conectar();
-            $querySelect = "SELECT * FROM produto WHERE produto_id = :produto_id";
+            $querySelect = "
+                SELECT p.*, l.corredor, l.prateleira
+                FROM produto AS p
+                LEFT JOIN produto_localizacao AS pl ON p.produto_id = pl.produto_id
+                LEFT JOIN localizacao AS l ON pl.localizacao_id = l.localizacao_id
+                WHERE p.produto_id = :produto_id
+            ";
             $stmt = $conexao->prepare($querySelect);
             $stmt->bindValue(':produto_id', $codigo, PDO::PARAM_INT);
             $stmt->execute();
@@ -122,84 +165,12 @@ class ProdutoDAO
         }
     }
 
-
-    public static function editarProduto(Produto $produto)
-    {
-        try {
-            $conexao = Conexao::conectar();
-            $queryUpdate = "UPDATE produto SET 
-                nome = :nome, 
-                codigo_barras = :codigo_barras, 
-                categoria = :categoria, 
-                marca = :marca, 
-                numero_lote = :numero_lote, 
-                numero_serie = :numero_serie, 
-                dimensoes = :dimensoes, 
-                data_fabricacao = :data_fabricacao, 
-                data_validade = :data_validade, 
-                fornecedor_id = :fornecedor_id, 
-                peso = :peso, 
-                zona = :zona, 
-                endereco = :endereco, 
-                quantidade = :quantidade, 
-                corredor = :corredor, 
-                prateleira = :prateleira, 
-                nivel = :nivel, 
-                posicao = :posicao 
-                WHERE produto_id = :produto_id";
-
-            $stmt = $conexao->prepare($queryUpdate);
-            $stmt->bindValue(':produto_id', $produto->getProdutoId(), PDO::PARAM_INT);
-            $stmt->bindValue(':nome', $produto->getNome(), PDO::PARAM_STR);
-            $stmt->bindValue(':codigo_barras', $produto->getCodigoBarras(), PDO::PARAM_STR);
-            $stmt->bindValue(':categoria', $produto->getCategoriaId(), PDO::PARAM_STR);
-            $stmt->bindValue(':marca', $produto->getMarca(), PDO::PARAM_STR);
-            $stmt->bindValue(':numero_lote', $produto->getNumeroLote(), PDO::PARAM_STR);
-            $stmt->bindValue(':numero_serie', $produto->getNumeroSerie(), PDO::PARAM_STR);
-            $stmt->bindValue(':dimensoes', $produto->getDimensoes(), PDO::PARAM_STR);
-            $stmt->bindValue(':data_fabricacao', $produto->getDataFabricacao(), PDO::PARAM_STR);
-            $stmt->bindValue(':data_validade', $produto->getDataValidade(), PDO::PARAM_STR);
-            $stmt->bindValue(':fornecedor_id', $produto->getFornecedorId(), PDO::PARAM_INT);
-            $stmt->bindValue(':peso', $produto->getPeso(), PDO::PARAM_STR);
-
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao atualizar produto: " . $e->getMessage());
-        }
-    }
-
     public static function adicionarLocalizacao($produtoId, $localizacaoId)
     {
         $conexao = Conexao::conectar();
         $sql = "INSERT INTO produto_localizacao (produto_id, localizacao_id) VALUES (?, ?)";
         $stmt = $conexao->prepare($sql);
         $stmt->execute([$produtoId, $localizacaoId]);
-    }
-
-
-
-
-
-
-    public static function excluirMovimentacaoPorProdutoId($produtoId)
-    {
-        $conn = Conexao::conectar();
-        $stmt = $conn->prepare("DELETE FROM movimentacao WHERE produto_id = ?");
-        return $stmt->execute([$produtoId]);
-    }
-
-    public static function excluirSaidaPorProdutoId($produtoId)
-    {
-        $conn = Conexao::conectar();
-        $stmt = $conn->prepare("DELETE FROM saida WHERE produto_id = ?");
-        return $stmt->execute([$produtoId]);
-    }
-
-    public static function excluirInventarioPorProdutoId($produtoId)
-    {
-        $conn = Conexao::conectar();
-        $stmt = $conn->prepare("DELETE FROM inventario WHERE produto_id = ?");
-        return $stmt->execute([$produtoId]);
     }
 
     public static function excluirProduto($produtoId)
@@ -209,12 +180,27 @@ class ProdutoDAO
             // Iniciar uma transação
             $conexao->beginTransaction();
 
-            // Primeiro, exclua os registros relacionados na tabela produto_localizacao
+            // Primeiro, exclua as divergências associadas ao produto
+            $stmt = $conexao->prepare("DELETE FROM divergencia WHERE produto_id = :produto_id");
+            $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Exclua os registros relacionados na tabela saida
+            $stmt = $conexao->prepare("DELETE FROM saida WHERE produto_id = :produto_id");
+            $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Exclua os registros relacionados na tabela estoque
+            $stmt = $conexao->prepare("DELETE FROM estoque WHERE produto_id = :produto_id");
+            $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Exclua os registros relacionados na tabela produto_localizacao
             $stmt = $conexao->prepare("DELETE FROM produto_localizacao WHERE produto_id = :produto_id");
             $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
             $stmt->execute();
 
-            // Agora, exclua o produto
+            // Exclua o produto na tabela produto
             $stmt = $conexao->prepare("DELETE FROM produto WHERE produto_id = :produto_id");
             $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
             $stmt->execute();

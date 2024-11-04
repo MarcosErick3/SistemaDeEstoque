@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/index.css">
     <title>Tela de Armazenamento</title>
     <style>
         .container {
@@ -171,7 +173,7 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
 
         <script>
             function updateSelectedLocation(radio) {
-                // Atualizar a lógica para manipular a localização selecionada, se necessário
+              
                 console.log("Localização selecionada:", radio.value);
             }
         </script>

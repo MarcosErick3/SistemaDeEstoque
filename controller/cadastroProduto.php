@@ -14,25 +14,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fornecedor_id = $_POST['fornecedor_id'];
     $dataFabricacao = $_POST['data_fabricacao'];
     $dataValidade = $_POST['data_validade'];
-    $quantidadeReservada = $_POST['quantidade_reservada'] ?? 0; // Use um valor padrão caso não exista
+    $quantidadeReservada = $_POST['quantidade_reservada'] ?? 0;
     $statusProduto = $_POST['status_produto'];
 
-    // Validação e formatação das datas
-    try {
-        // Tente criar um objeto DateTime para cada data
-        $dtFabricacao = new DateTime($dataFabricacao);
-        $dtValidade = new DateTime($dataValidade);
-
-        // Formate as datas para o padrão YYYY-MM-DD
-        $dataFabricacao = $dtFabricacao->format('Y-m-d');
-        $dataValidade = $dtValidade->format('Y-m-d');
-    } catch (Exception $e) {
-        echo '<p style="color:red;">Data inválida: ' . htmlspecialchars($e->getMessage()) . '</p>';
-        exit();
-    }
-
-    // Criar uma instância do Produto
-    $produto = new Produto();
+    // Criar o objeto Produto e definir os atributos
+    $produto = new Produto(); // Instância de Produto
     $produto->setNome($nome);
     $produto->setCategoria($categoria);
     $produto->setMarca($marca);
@@ -44,14 +30,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $produto->setFornecedorId($fornecedor_id);
     $produto->setDataFabricacao($dataFabricacao);
     $produto->setDataValidade($dataValidade);
-    $produto->setQuantidade_reservada($quantidadeReservada); // Corrigido aqui
+    $produto->setQuantidade_reservada($quantidadeReservada);
     $produto->setStatusProduto($statusProduto);
 
-    // Chamar o método para inserir o produto
+    // Validação e formatação das datas
     try {
+        // Cadastrar o produto
         $produtoId = ProdutoDAO::cadastrar($produto);
 
-        // Redirecionar para a página de armazenamento passando o produtoId
+        // Adicionar entrada na tabela estoque com dados padrão
+        $conexao = Conexao::conectar();
+        $sqlInserirEstoque = "INSERT INTO estoque (produto_id, quantidade, localizacao_id, nivel_minimo, nivel_atual, alerta_critico)
+                              VALUES (:produto_id, :quantidade, :localizacao_id, 0, :quantidade, 0)";
+        $stmtEstoque = $conexao->prepare($sqlInserirEstoque);
+        $stmtEstoque->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
+        $stmtEstoque->bindParam(':quantidade', $quantidadeReservada, PDO::PARAM_INT);
+        $stmtEstoque->bindParam(':localizacao_id', $localizacao_id, PDO::PARAM_INT);
+        $stmtEstoque->execute();
+
+        // Redirecionar para a página de armazenamento com o produtoId
         header("Location: ../view/Armazenamento.php?produtoId=" . urlencode($produtoId));
         exit();
     } catch (Exception $e) {
@@ -59,5 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         print_r($e);
         echo '</pre>';
         echo '<p style="color:red;">' . htmlspecialchars($e->getMessage()) . '</p>';
+    } finally {
+        $conexao = null;
     }
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios de Indicadores</title>
+    <link rel="stylesheet" href="RelatorioDeIndicadores.css">
+</head>
+<body>
+    <h1>Indicadores de Eficiência do Armazém</h1>
+    <div id="report-container">
+        <button onclick="generateReport()">Gerar Relatório</button>
+        <div id="indicators">
+            <h2>Indicadores</h2>
+            <p>Taxa de Ocupação: <span id="occupancy-rate"></span>%</p>
+            <p>Tempo Médio de Separação: <span id="avg-picking-time"></span> minutos</p>
+            <p>Erros de Picking: <span id="picking-errors"></span></p>
+            <p>Produtividade por Operador: <span id="operator-productivity"></span> itens/hora</p>
+        </div>
+    </div>
+    <script src="RelatorioDeIndicadores.js"></script>
+</body>
+</html>

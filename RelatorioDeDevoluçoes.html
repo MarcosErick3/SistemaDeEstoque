@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios de Devoluções</title>
+    <link rel="stylesheet" href="RelatorioDeDevoluçoes.css">
+</head>
+<body>
+    <h1>Relatórios de Devoluções</h1>
+    <div id="filters">
+        <label for="start-date">Data Início:</label>
+        <input type="date" id="start-date">
+
+        <label for="end-date">Data Fim:</label>
+        <input type="date" id="end-date">
+
+        <label for="client">Cliente:</label>
+        <input type="text" id="client">
+
+        <label for="carrier">Transportadora:</label>
+        <input type="text" id="carrier">
+
+        <button onclick="generateReturnReport()">Gerar Relatório</button>
+    </div>
+
+    <div id="report-container">
+        <h2>Relatório de Devoluções</h2>
+        <table id="report-table">
+            <thead>
+                <tr>
+                    <th>Pedido</th>
+                    <th>Cliente</th>
+                    <th>Transportadora</th>
+                    <th>Motivo</th>
+                    <th>Data de Devolução</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script src="RelatorioDeDevoluçoes.js"></script>
+</body>
+</html>
