@@ -156,7 +156,6 @@ try {
     <p><strong>Fornecedor:</strong> ${data.fornecedor_nome}</p>
     <p><strong>Data de Fabricação:</strong> ${new Date(data.data_fabricacao).toLocaleDateString('pt-BR')}</p>
     <p><strong>Data de Validade:</strong> ${new Date(data.data_validade).toLocaleDateString('pt-BR')}</p>
-    <p><strong>Status do Produto:</strong> ${data.status_produto}</p>
     <p><strong>Corredor:</strong> ${data.corredor}</p>
     <p><strong>Prateleira:</strong> ${data.prateleira}</p>
 `;

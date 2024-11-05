@@ -55,6 +55,8 @@
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
                 <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
                 <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolucao</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatorio De Devoluçoes</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>

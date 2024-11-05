@@ -107,6 +107,8 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
                 <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
                 <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolucao</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatorio De Devoluçoes</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
@@ -173,7 +175,7 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
 
         <script>
             function updateSelectedLocation(radio) {
-              
+
                 console.log("Localização selecionada:", radio.value);
             }
         </script>

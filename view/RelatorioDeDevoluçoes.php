@@ -5,11 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatórios de Devoluções</title>
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/RelatorioDeDevoluçoes.css">
 </head>
 
 <body>
-    <h1>Relatórios de Devoluções</h1>
+    <header id="header">
+        <nav id="navbar">
+            <h1 id="system-name">Smart Stock</h1>
+            <ul id="nav">
+                <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
+                <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
+                <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
+                <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolucao</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatorio De Devoluçoes</a></li>
+                <li class="nav-item"><a href="../index.php">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
     <div id="filters">
         <form action="../controller/gerarRelatorioDevolucao.php" method="GET">
             <label for="data_inicio">Data de Início</label>

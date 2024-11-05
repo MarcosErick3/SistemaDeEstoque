@@ -140,21 +140,23 @@
     </header>
 
     <div class="container">
-        <header id="header">
-            <nav id="navbar">
-                <h1 id="system-name">Smart Stock</h1>
-                <ul id="nav">
-                    <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
-                    <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
-                    <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
-                    <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
-                    <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
-                    <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
-                    <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                    <li class="nav-item"><a href="../index.php">Sair</a></li>
-                </ul>
-            </nav>
-        </header>
+    <header id="header">
+        <nav id="navbar">
+            <h1 id="system-name">Smart Stock</h1>
+            <ul id="nav">
+                <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
+                <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
+                <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
+                <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolucao</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatorio De Devoluçoes</a></li>
+                <li class="nav-item"><a href="../index.php">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
         <div class="content">
             <h1>Gestão de Estoque</h1>
 
