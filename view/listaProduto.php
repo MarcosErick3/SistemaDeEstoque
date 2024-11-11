@@ -47,6 +47,7 @@ try {
     <link rel="stylesheet" href="../css/produto/buscarProduto.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/footer.css">
 </head>
 
 <body>
@@ -57,27 +58,28 @@ try {
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
-                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
                 <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
-                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
     </header>
-
     <main>
-        <form method="POST" action="" aria-label="Barra de Pesquisa">
+        <form method="POST" action="" aria-label="Barra de Pesquisa" class="form-main">
             <input type="text" id="barra-pesquisa" name="query" placeholder="Pesquisar produto..." value="<?php echo isset($_POST['query']) ? htmlspecialchars($_POST['query']) : ''; ?>" required>
-            <button id="botao-pesquisa" type="submit">Pesquisar</button>
+            <button id="botao-pesquisa" class="btn btn-search" type="submit" aria-label="Pesquisar">Pesquisar</button>
         </form>
 
-        <section id="resultado-busca" aria-labelledby="resultado-busca-titulo">
+        <section id="resultado-busca" aria-labelledby="resultado-busca-titulo" aria-live="polite">
             <h2 id="resultado-busca-titulo">Resultado da Busca</h2>
             <div id="produtos">
                 <?php if (count($produtos) > 0): ?>
                     <?php foreach ($produtos as $produto): ?>
-                        <div class="produto-card" onclick="exibirInfoProduto('<?php echo $produto['produto_id']; ?>')">
+                        <div class="produto-card" onclick="exibirInfoProduto('<?php echo $produto['produto_id']; ?>')" role="button" tabindex="0" aria-label="Ver detalhes do produto">
                             <h3><?php echo htmlspecialchars($produto['nome']); ?></h3>
                             <p><strong>Categoria:</strong> <?php echo htmlspecialchars($produto['categoria']); ?></p>
                             <p><strong>Fornecedor:</strong> <?php echo htmlspecialchars($produto['fornecedor_nome']); ?></p>
@@ -94,7 +96,7 @@ try {
             <div id="produtos">
                 <?php if (count($produtosCadastrados) > 0): ?>
                     <?php foreach ($produtosCadastrados as $produto): ?>
-                        <div class="produto-card" onclick="exibirInfoProduto(<?php echo htmlspecialchars($produto['produto_id']); ?>)">
+                        <div class="produto-card" onclick="exibirInfoProduto(<?php echo htmlspecialchars($produto['produto_id']); ?>)" role="button" tabindex="0" aria-label="Ver detalhes do produto">
                             <h3><?php echo htmlspecialchars($produto['nome']); ?></h3>
                             <p><strong>Categoria:</strong> <?php echo htmlspecialchars($produto['categoria']); ?></p>
                             <p><strong>Marca:</strong> <?php echo htmlspecialchars($produto['marca']); ?></p>
@@ -110,9 +112,8 @@ try {
                             <p><strong>Corredor:</strong> <?php echo htmlspecialchars($produto['corredor']); ?></p>
                             <p><strong>Prateleira:</strong> <?php echo htmlspecialchars($produto['prateleira']); ?></p>
 
-                            <a class="edit-link" href="editarProduto.php?id=<?php echo htmlspecialchars($produto['produto_id']); ?>">Editar</a>
-                            <a class="delete-link" href="listaProduto.php?excluir_produto_id=<?php echo htmlspecialchars($produto['produto_id']); ?>"
-                                onclick="return confirm('Tem certeza que deseja excluir este produto?');">Excluir</a>
+                            <a class="edit-link" href="editarProduto.php?id=<?php echo htmlspecialchars($produto['produto_id']); ?>" aria-label="Editar produto">Editar</a>
+                            <a class="delete-link" href="listaProduto.php?excluir_produto_id=<?php echo htmlspecialchars($produto['produto_id']); ?>" onclick="return confirm('Tem certeza que deseja excluir este produto?');" aria-label="Excluir produto">Excluir</a>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -127,48 +128,59 @@ try {
                 <p>Nenhum produto selecionado.</p>
             </div>
         </section>
-
-        <script>
-            function exibirInfoProduto(produtoId) {
-                const detalhesProduto = document.getElementById('detalhes-produto');
-                detalhesProduto.innerHTML = 'Carregando informações do produto...';
-
-                // Faz a requisição para buscar as informações do produto
-                fetch(`getProdutoInfo.php?id=${produtoId}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Erro na rede: ' + response.statusText);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        // Verifica se os dados do produto foram retornados
-                        if (data && Object.keys(data).length > 0) {
-                            detalhesProduto.innerHTML = `
-    <h3>${data.nome}</h3>
-    <p><strong>Categoria:</strong> ${data.categoria}</p>
-    <p><strong>Marca:</strong> ${data.marca}</p>
-    <p><strong>Peso:</strong> ${data.peso} kg</p>
-    <p><strong>Dimensões:</strong> ${data.dimensoes}</p>
-    <p><strong>Número Lote:</strong> ${data.numero_lote}</p>
-    <p><strong>Número Série:</strong> ${data.numero_serie}</p>
-    <p><strong>Código de Barras:</strong> ${data.codigo_barras}</p>
-    <p><strong>Fornecedor:</strong> ${data.fornecedor_nome}</p>
-    <p><strong>Data de Fabricação:</strong> ${new Date(data.data_fabricacao).toLocaleDateString('pt-BR')}</p>
-    <p><strong>Data de Validade:</strong> ${new Date(data.data_validade).toLocaleDateString('pt-BR')}</p>
-    <p><strong>Corredor:</strong> ${data.corredor}</p>
-    <p><strong>Prateleira:</strong> ${data.prateleira}</p>
-`;
-                        } else {
-                            detalhesProduto.innerHTML = 'Produto não encontrado.';
-                        }
-                    })
-                    .catch(error => {
-                        detalhesProduto.innerHTML = `Erro ao carregar detalhes do produto: ${error.message}`;
-                    });
-            }
-        </script>
     </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://www.linkedin.com/in/seunome" target="_blank">LinkedIn</a> |
+                <a href="https://github.com/seunome" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function exibirInfoProduto(produtoId) {
+            const detalhesProduto = document.getElementById('detalhes-produto');
+            detalhesProduto.innerHTML = 'Carregando informações do produto...';
+
+            // Faz a requisição para buscar as informações do produto
+            fetch(`getProdutoInfo.php?id=${produtoId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro na rede: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Verifica se os dados do produto foram retornados
+                    if (data && Object.keys(data).length > 0) {
+                        detalhesProduto.innerHTML = `
+                        <h3>${data.nome}</h3>
+                        <p><strong>Categoria:</strong> ${data.categoria}</p>
+                        <p><strong>Marca:</strong> ${data.marca}</p>
+                        <p><strong>Peso:</strong> ${data.peso} kg</p>
+                        <p><strong>Dimensões:</strong> ${data.dimensoes}</p>
+                        <p><strong>Número Lote:</strong> ${data.numero_lote}</p>
+                        <p><strong>Número Série:</strong> ${data.numero_serie}</p>
+                        <p><strong>Código de Barras:</strong> ${data.codigo_barras}</p>
+                        <p><strong>Fornecedor:</strong> ${data.fornecedor_nome}</p>
+                        <p><strong>Data de Fabricação:</strong> ${new Date(data.data_fabricacao).toLocaleDateString('pt-BR')}</p>
+                        <p><strong>Data de Validade:</strong> ${new Date(data.data_validade).toLocaleDateString('pt-BR')}</p>
+                        <p><strong>Corredor:</strong> ${data.corredor}</p>
+                        <p><strong>Prateleira:</strong> ${data.prateleira}</p>
+                    `;
+                    } else {
+                        detalhesProduto.innerHTML = 'Produto não encontrado.';
+                    }
+                })
+                .catch(error => {
+                    detalhesProduto.innerHTML = `Erro ao carregar detalhes do produto: ${error.message}`;
+                });
+        }
+    </script>
 </body>
 
 </html>

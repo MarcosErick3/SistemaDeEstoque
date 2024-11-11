@@ -7,6 +7,55 @@
     <title>Registrar Devolução</title>
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <style>
+        main {
+            max-width: 800px;
+            margin: 40px auto;
+            margin-left: 35%;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,12 +66,12 @@
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
-                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
                 <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
-                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolucao</a></li>
-                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatorio De Devoluçoes</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
@@ -49,6 +98,17 @@
             <button type="submit">Registrar Devolução</button>
         </form>
     </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://www.linkedin.com/in/seunome" target="_blank">LinkedIn</a> |
+                <a href="https://github.com/seunome" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>

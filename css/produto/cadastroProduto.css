@@ -1,18 +1,27 @@
+/* Importando as fontes */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&family=Bitter:wght@400;700&display=swap');
+
+/* Cor do título */
 h1 {
-    color: #fff;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
 }
 
+/* Estilo do formulário */
 .form-main {
-    background-color: #fff;
+    background-color: #f4f4f9;
+    /* Cor suave para o fundo do formulário */
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     padding: 20px;
     width: 100%;
     max-width: 1500px;
     margin: 20px auto;
+    font-family: 'Poppins', sans-serif;
 }
 
+/* Estilo das colunas de input */
 .input-column {
     display: flex;
     justify-content: space-between;
@@ -20,41 +29,60 @@ h1 {
     margin-bottom: 15px;
 }
 
+/* Estilo dos grupos de inputs */
 .input-group {
     flex: 1;
     margin: 0 10px;
     min-width: 220px;
 }
 
+/* Estilo do rótulo dos inputs */
 .input-group label {
     margin-bottom: 5px;
     font-weight: bold;
-    color: #333;
+    color: #333333;
+    /* Cor do texto */
+    font-family: 'Poppins', sans-serif;
 }
 
+/* Estilo dos campos de input */
 input[type="text"],
 input[type="email"],
 input[type="tel"],
 textarea,
 input[type="date"],
-input[type="number"] {
+input[type="number"],
+select {
     width: 100%;
     padding: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
+    /* Cor da borda padrão */
     border-radius: 4px;
-    transition: border-color 0.3s;
+    background-color: #ffffff;
+    /* Cor de fundo dos campos */
+    font-size: 16px;
+    color: #333333;
+    /* Cor do texto nos campos */
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.3s, background-color 0.3s;
 }
 
+/* Efeito ao focar nos campos de input */
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus,
 textarea:focus,
 input[type="date"]:focus,
-input[type="number"]:focus {
+input[type="number"]:focus,
+select:focus {
     border-color: #007bff;
+    /* Cor do foco */
     outline: none;
+    background-color: #f1f9ff;
+    /* Cor de fundo ao focar */
 }
 
+/* Estilo do botão */
 .botao {
     display: flex;
     align-self: center;
@@ -63,28 +91,87 @@ input[type="number"]:focus {
     margin-top: 20px;
 }
 
+/* Estilo do botão "Cadastrar Produto" */
 .btn {
     background-color: #007bff;
+    /* Cor de fundo do botão */
     color: white;
     border: none;
     padding: 12px 25px;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
+/* Efeito ao passar o mouse sobre o botão "Cadastrar Produto" */
 .btn:hover {
     background-color: #0056b3;
+    /* Cor mais escura do botão */
+    transform: scale(1.05);
+    /* Aumenta ligeiramente o botão */
 }
 
+/* Estilo do botão "Limpar" */
 .btn-clear {
     background-color: #f44336;
+    /* Cor de fundo para botão de limpar */
+    transition: background-color 0.3s, transform 0.2s;
 }
 
+/* Efeito ao passar o mouse sobre o botão "Limpar" */
 .btn-clear:hover {
     background-color: #d32f2f;
+    /* Cor mais escura do botão de limpar */
+    transform: scale(1.05);
+    /* Aumenta ligeiramente o botão */
 }
 
+/* Estilo do campo de seleção (select) */
+select {
+    background-color: #f9f9f9;
+    /* Cor de fundo */
+    font-family: 'Poppins', sans-serif;
+    color: #333333;
+    /* Cor do texto */
+    font-size: 16px;
+    border-radius: 5px;
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="gray"><path d="M2 6h12L8 12 2 6z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+/* Efeito ao passar o mouse sobre o select */
+select:hover {
+    border-color: #888;
+    /* Cor da borda ao passar o mouse */
+}
+
+/* Efeito de foco no select */
+select:focus {
+    border-color: #007bff;
+    /* Cor da borda ao focar */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    /* Sombra de foco */
+}
+
+/* Estilo de inputs desabilitados */
 input[disabled] {
     background-color: #f7f7f7;
+}
+
+/* Estilo do checkbox */
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Estilo da coluna de input no formulário */
+.input-column {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
 }

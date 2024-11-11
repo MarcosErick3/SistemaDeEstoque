@@ -14,12 +14,12 @@ main {
 
 .input-column {
     display: flex;
-    flex-direction: column; 
-    gap: 15px; 
+    flex-direction: column;
+    gap: 15px;
 }
 
 .input-group {
-    margin-bottom: 15px; 
+    margin-bottom: 15px;
 }
 
 #form label {
@@ -49,28 +49,42 @@ main {
     outline: none;
 }
 
+.input-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333333;
+    /* Cor do texto */
+    font-family: 'Poppins', sans-serif;
+}
+
+
 textarea {
-    resize: vertical; 
+    resize: vertical;
 }
 
 .botao {
     display: flex;
-    justify-content: space-between; 
-    margin-top: 20px; 
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
 button {
     background-color: #007bff;
-    color: #fff;
+    display: inline-block;
     padding: 10px 15px;
-    border: none;
+    /* Cor do botão */
+    color: white;
+    text-decoration: none;
     border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
     cursor: pointer;
-    transition: background-color 0.3s;
+    border: none;
 }
 
 button:hover {
-    background-color: #0056b3;
+    transform: scale(1.05);
 }
 
 a.btn {
@@ -79,10 +93,27 @@ a.btn {
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
-    text-decoration: none; 
+    text-decoration: none;
     transition: background-color 0.3s;
 }
 
 a.btn:hover {
     background-color: #0056b3;
+}
+
+.delete-link {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #d32f2f;
+    /* Cor do botão */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.delete-link:hover {
+    transform: scale(1.05);
 }

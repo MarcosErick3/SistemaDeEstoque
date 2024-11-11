@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03/11/2024 às 02:20
+-- Tempo de geração: 06/11/2024 às 00:30
 -- Versão do servidor: 8.0.39
 -- Versão do PHP: 8.2.12
 
@@ -20,6 +20,22 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `sistemaestoque`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `devolucoes`
+--
+
+CREATE TABLE `devolucoes` (
+  `devolucao_id` int NOT NULL,
+  `produto_id` int NOT NULL,
+  `fornecedor_id` int NOT NULL,
+  `data_devolucao` date NOT NULL,
+  `quantidade` int NOT NULL,
+  `motivo` varchar(255) NOT NULL,
+  `categoria` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -143,16 +159,6 @@ CREATE TABLE `movimentacao` (
   `quantidade_movimentada` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Despejando dados para a tabela `movimentacao`
---
-
-INSERT INTO `movimentacao` (`movimentacao_id`, `produto_id`, `localizacao_origem_id`, `localizacao_destino_id`, `data_movimentacao`, `operador_id`, `motivo`, `quantidade_movimentada`) VALUES
-(1, 25, 17, 19, '2004-07-02 00:00:00', 1, 'casa', 23),
-(2, 25, 17, 21, '2004-07-02 00:00:00', 1, '2', 2),
-(3, 25, 17, 19, '2004-07-02 00:00:00', 1, '1', 12),
-(4, 25, 17, 20, '1111-11-11 00:00:00', 1, '1', 4);
-
 -- --------------------------------------------------------
 
 --
@@ -196,13 +202,6 @@ CREATE TABLE `produto` (
   `categoria` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Despejando dados para a tabela `produto`
---
-
-INSERT INTO `produto` (`produto_id`, `nome`, `marca`, `peso`, `dimensoes`, `numero_lote`, `numero_serie`, `codigo_barras`, `fornecedor_id`, `data_fabricacao`, `data_validade`, `quantidade_reservada`, `status_produto`, `categoria`) VALUES
-(25, 'Nike', 'Nike', 989.00, '89908', '98', '98', '980', 1, '2004-07-02', '2204-07-02', 82, 'Disponível', 'Eletrônicos');
-
 -- --------------------------------------------------------
 
 --
@@ -215,13 +214,6 @@ CREATE TABLE `produto_localizacao` (
   `localizacao_id` int NOT NULL,
   `quantidade` int DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Despejando dados para a tabela `produto_localizacao`
---
-
-INSERT INTO `produto_localizacao` (`id`, `produto_id`, `localizacao_id`, `quantidade`) VALUES
-(22, 25, 17, 0);
 
 -- --------------------------------------------------------
 
@@ -271,15 +263,16 @@ CREATE TABLE `saida` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Despejando dados para a tabela `saida`
---
-
-INSERT INTO `saida` (`saida_id`, `produto_id`, `quantidade`, `data_saida`, `cliente`, `destino`, `fornecedor_id`) VALUES
-(5, 25, 82, '2024-11-02 01:31:12', 'CASA', 'CASA', 1);
-
---
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices de tabela `devolucoes`
+--
+ALTER TABLE `devolucoes`
+  ADD PRIMARY KEY (`devolucao_id`),
+  ADD KEY `produto_id` (`produto_id`),
+  ADD KEY `fornecedor_id` (`fornecedor_id`);
 
 --
 -- Índices de tabela `divergencia`
@@ -376,6 +369,12 @@ ALTER TABLE `saida`
 --
 
 --
+-- AUTO_INCREMENT de tabela `devolucoes`
+--
+ALTER TABLE `devolucoes`
+  MODIFY `devolucao_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `divergencia`
 --
 ALTER TABLE `divergencia`
@@ -385,7 +384,7 @@ ALTER TABLE `divergencia`
 -- AUTO_INCREMENT de tabela `estoque`
 --
 ALTER TABLE `estoque`
-  MODIFY `estoque_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `estoque_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedor`
@@ -421,13 +420,13 @@ ALTER TABLE `operador`
 -- AUTO_INCREMENT de tabela `produto`
 --
 ALTER TABLE `produto`
-  MODIFY `produto_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `produto_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT de tabela `produto_localizacao`
 --
 ALTER TABLE `produto_localizacao`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de tabela `recebimento`
@@ -450,6 +449,13 @@ ALTER TABLE `saida`
 --
 -- Restrições para tabelas despejadas
 --
+
+--
+-- Restrições para tabelas `devolucoes`
+--
+ALTER TABLE `devolucoes`
+  ADD CONSTRAINT `devolucoes_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`produto_id`),
+  ADD CONSTRAINT `devolucoes_ibfk_2` FOREIGN KEY (`fornecedor_id`) REFERENCES `fornecedor` (`fornecedor_id`);
 
 --
 -- Restrições para tabelas `divergencia`

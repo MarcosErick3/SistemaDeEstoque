@@ -3,8 +3,7 @@ form {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
-    margin-top: 20px;
-    margin-left: 220px; /* Ajuste para o formulário não sobrepor a barra de navegação */
+    margin: 20px 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
 }
 

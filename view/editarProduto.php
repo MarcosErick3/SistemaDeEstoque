@@ -5,25 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/produto/editarProduto.css">
+    <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
     <title>Editar Produto</title>
 </head>
 
 <body>
-<header id="header">
+    <header id="header">
         <nav id="navbar">
             <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
-                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
                 <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
-                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolucao</a></li>
-                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatorio De Devoluçoes</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
@@ -89,8 +90,10 @@
                                     <input type="date" id="data_fabricacao" name="data_fabricacao" value="<?php echo htmlspecialchars($produto['data_fabricacao']); ?>" required>
                                 </div>
                                 <div class="input-group">
-                                    <label for="data_validade">Data de Validade</label>
-                                    <input type="date" id="data_validade" name="data_validade" value="<?php echo htmlspecialchars($produto['data_validade']); ?>" required>
+                                    <label for="dataValidade">Data de Validade:</label>
+                                    <input type="date" id="dataValidade" name="data_validade">
+                                    <label for="naoAplicaValidade">Não se aplica</label>
+                                    <input type="checkbox" id="naoAplicaValidade" onclick="toggleValidade()">
                                 </div>
                                 <div class="input-group">
                                     <label for="fornecedor_id">Fornecedor ID</label>
@@ -123,7 +126,7 @@
 
                         <div class="form-actions">
                             <button type="submit">Salvar</button>
-                            <a href="listaProduto.php">Voltar</a>
+                            <a class="delete-link" href="listaProduto.php">Voltar</a>
                         </div>
             <?php
                     } else {
@@ -138,6 +141,30 @@
             ?>
         </form>
     </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://www.linkedin.com/in/seunome" target="_blank">LinkedIn</a> |
+                <a href="https://github.com/seunome" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function toggleValidade() {
+            const dataValidade = document.getElementById('dataValidade');
+            const naoAplicaCheckbox = document.getElementById('naoAplicaValidade');
+
+            if (naoAplicaCheckbox.checked) {
+                dataValidade.value = ""; // Limpa o campo
+                dataValidade.disabled = true; // Desabilita o campo
+            } else {
+                dataValidade.disabled = false; // Habilita o campo novamente
+            }
+        }
+    </script>
 
 </body>
 

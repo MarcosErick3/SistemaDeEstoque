@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/produto/registrarIventario.css">
+    <link rel="stylesheet" href="../css/footer.css">
     <style>
         /* Estilo para mensagens de sucesso ou erro */
         .message {
@@ -49,22 +50,18 @@
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
-                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
                 <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
-                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolucao</a></li>
-                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatorio De Devoluçoes</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <h2>Registrar Inventário</h2>
-        <p>Para registrar o inventário de um produto, selecione o produto desejado, insira a quantidade física disponível e escolha a localização onde o produto está armazenado. Após preencher todos os campos obrigatórios, clique em "Registrar Inventário" para salvar as informações.</p>
-
-        <!-- Exibir mensagens de sucesso ou erro -->
         <?php
         session_start(); // Certifique-se de que a sessão está iniciada
         if (isset($_SESSION['success_message'])) {
@@ -129,6 +126,18 @@
             <button type="button" class="cancel-button" onclick="window.location.href='listaInventario.php'">Cancelar</button>
         </form>
     </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://www.linkedin.com/in/seunome" target="_blank">LinkedIn</a> |
+                <a href="https://github.com/seunome" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
 </body>
 
 </html>

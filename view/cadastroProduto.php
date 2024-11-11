@@ -5,39 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/produto/cadastroProduto.css">
+    <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="shortcut icon" href="../img/logo.jpg" type="image/x-icon">
     <title>Cadastro de Produto</title>
-    <style>
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            font-size: 16px;
-            color: #333;
-            appearance: none;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http: 16 16" fill="gray"><path d="M2 6h12L8 12 2 6z"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 12px;
-        }
-
-        select:hover {
-            border-color: #888;
-        }
-
-        select:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
-
-        .input-group {
-            position: relative;
-        }
-    </style>
 </head>
 
 <body>
@@ -48,16 +20,18 @@
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
-                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
                 <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
-                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolucao</a></li>
-                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatorio De Devoluçoes</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
     </header>
+
+
     <main>
         <?php
         require 'global.php';
@@ -84,9 +58,8 @@
                         <option value="">Selecione uma categoria</option>
                         <option value="Eletrônicos">Eletrônicos</option>
                         <option value="Vestuário">Vestuário</option>
-                        <option value="Alimentos">Alimentos</option>
-                        <option value="Móveis">Móveis</option>
-                        <option value="Ferramentas">Ferramentas</option>
+                        <option value="Alimentos">Alimenticios</option>
+                        <option value="Brinquedos">Brinquedos</option>
                     </select>
                 </div>
             </div>
@@ -155,14 +128,29 @@
             </div>
             <div class="botao">
                 <button type="submit" class="btn">Cadastrar Produto</button>
-                <button type="reset" class="btn btn-clear">Limpar</button>
+                <button type="button" class="btn btn-clear" onclick="resetar()">Resetar</button>
             </div>
         </form>
 
 
 
     </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://www.linkedin.com/in/seunome" target="_blank">LinkedIn</a> |
+                <a href="https://github.com/seunome" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
     <script>
+        function resetar() {
+            window.location.reload();
+        }
+
         function toggleValidade() {
             const dataValidade = document.getElementById('dataValidade');
             const naoAplicaCheckbox = document.getElementById('naoAplicaValidade');
@@ -212,8 +200,12 @@
         }
         window.onload = function() {
             const dataFabricacao = document.getElementById('dataFabricacao');
-            const hoje = new Date().toISOString().split('T')[0]; // Formato AAAA-MM-DD
-            dataFabricacao.value = hoje;
+            const hoje = new Date();
+            const ano = hoje.getFullYear();
+            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+            const dia = String(hoje.getDate()).padStart(2, '0'); 
+            const hojeFormatado = `${ano}-${mes}-${dia}`;
+            dataFabricacao.value = hojeFormatado;
             preencherCamposAutomaticamente();
         };
     </script>

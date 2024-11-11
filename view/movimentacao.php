@@ -8,28 +8,29 @@
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/produto/registrarMovimentacao.css">
+    <link rel="stylesheet" href="../css/footer.css">
 </head>
 
 <body>
-<header id="header">
+    <header id="header">
         <nav id="navbar">
             <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
-                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
                 <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
-                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolucao</a></li>
-                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatorio De Devoluçoes</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <form method="POST" action="../controller/registrarMovimentacao.php">
+        <form method="POST" class="form-main" action="../controller/registrarMovimentacao.php">
 
             <label for="operador_id">Operador:</label>
             <input type="text" name="operador_id" id="operador_id" required placeholder="Insira o ID do operador">
@@ -92,40 +93,49 @@
 
             <button type="submit">Registrar Movimentação</button>
         </form>
+    </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://www.linkedin.com/in/seunome" target="_blank">LinkedIn</a> |
+                <a href="https://github.com/seunome" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
 
-        <script>
-            function buscarLocalizacaoQuantidade() {
-                const produtoId = document.getElementById('produto_id').value;
+    <script>
+        function buscarLocalizacaoQuantidade() {
+            const produtoId = document.getElementById('produto_id').value;
 
-                if (produtoId) {
-                    fetch(`buscarLocalizacao.php?produto_id=${produtoId}`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Erro ao buscar localização: ' + response.statusText);
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            const localizacaoOrigemSelect = document.getElementById('localizacao_origem_id');
-                            const quantidadeDisponivelInput = document.getElementById('quantidade_disponivel');
+            if (produtoId) {
+                fetch(`buscarLocalizacao.php?produto_id=${produtoId}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erro ao buscar localização: ' + response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const localizacaoOrigemSelect = document.getElementById('localizacao_origem_id');
+                        const quantidadeDisponivelInput = document.getElementById('quantidade_disponivel');
 
-                            localizacaoOrigemSelect.innerHTML = '';
+                        localizacaoOrigemSelect.innerHTML = '';
 
-                            if (data.localizacao_id) {
-                                localizacaoOrigemSelect.innerHTML = `<option value="${data.localizacao_id}">${data.localizacao_nome}</option>`;
-                                quantidadeDisponivelInput.value = data.quantidade; // Captura a quantidade do produto
-                            } else {
-                                localizacaoOrigemSelect.innerHTML = '<option value="">Localização não encontrada</option>';
-                                quantidadeDisponivelInput.value = 0;
-                            }
-                        })
-                        .catch(error => console.error('Erro ao buscar localização:', error));
-                }
+                        if (data.localizacao_id) {
+                            localizacaoOrigemSelect.innerHTML = `<option value="${data.localizacao_id}">${data.localizacao_nome}</option>`;
+                            quantidadeDisponivelInput.value = data.quantidade; // Captura a quantidade do produto
+                        } else {
+                            localizacaoOrigemSelect.innerHTML = '<option value="">Localização não encontrada</option>';
+                            quantidadeDisponivelInput.value = 0;
+                        }
+                    })
+                    .catch(error => console.error('Erro ao buscar localização:', error));
             }
-        </script>
-
-
-
+        }
+    </script>
 </body>
 
 </html>

@@ -7,6 +7,7 @@
     <title>Registrar Saída de Produto</title>
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/produto/registrarSaidaProduto.css">
     <style>
         /* Estilo para mensagens de sucesso ou erro */
@@ -49,12 +50,12 @@
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
-                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
                 <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
-                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolucao</a></li>
-                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatorio De Devoluçoes</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
@@ -112,24 +113,30 @@
             <button type="submit">Registrar Saída</button>
             <button type="button" class="cancel-button" onclick="window.location.href='listaSaida.php'">Cancelar</button>
         </form>
-
-        <script>
-            function atualizarQuantidadeFornecedor(produtoSelect) {
-                // Obtem os valores dos atributos data
-                const quantidade = produtoSelect.selectedOptions[0].getAttribute("data-quantidade");
-                const fornecedorId = produtoSelect.selectedOptions[0].getAttribute("data-fornecedor-id");
-                const fornecedorNome = produtoSelect.selectedOptions[0].getAttribute("data-fornecedor-nome");
-
-                // Atualiza os campos de quantidade e fornecedor
-                document.getElementById("quantidade").value = quantidade || "";
-                document.getElementById("fornecedor_id").value = fornecedorId || "";
-            }
-        </script>
-
-
-
     </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://www.linkedin.com/in/seunome" target="_blank">LinkedIn</a> |
+                <a href="https://github.com/seunome" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function atualizarQuantidadeFornecedor(produtoSelect) {
+            // Obtem os valores dos atributos data
+            const quantidade = produtoSelect.selectedOptions[0].getAttribute("data-quantidade");
+            const fornecedorId = produtoSelect.selectedOptions[0].getAttribute("data-fornecedor-id");
+            const fornecedorNome = produtoSelect.selectedOptions[0].getAttribute("data-fornecedor-nome");
 
+            // Atualiza os campos de quantidade e fornecedor
+            document.getElementById("quantidade").value = quantidade || "";
+            document.getElementById("fornecedor_id").value = fornecedorId || "";
+        }
+    </script>
 </body>
 
 </html>

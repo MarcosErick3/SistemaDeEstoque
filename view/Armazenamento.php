@@ -6,85 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/armazenamento.css">
     <title>Tela de Armazenamento</title>
-    <style>
-        .container {
-            flex-grow: 1;
-            margin: 100px auto;
-            margin-left: 300px;
-            /* Espaço para o menu */
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1,
-        h2 {
-            text-align: center;
-        }
-
-        .map {
-            margin: 20px 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #007BFF;
-            color: white;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .corredor {
-            font-weight: bold;
-            text-align: left;
-            background-color: #eee;
-        }
-
-        .selected-row {
-            background-color: #007BFF;
-            color: white;
-        }
-
-        .status-disponivel {
-            color: green;
-            font-weight: bold;
-        }
-
-        .status-sobrecarregado {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
 </head>
 
 <?php
@@ -96,19 +20,19 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
 ?>
 
 <body>
-    <header id="header">
+<header id="header">
         <nav id="navbar">
             <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
                 <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
-                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
+                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
                 <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
                 <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
-                <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolucao</a></li>
-                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatorio De Devoluçoes</a></li>
+                <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
+                <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
+                <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
                 <li class="nav-item"><a href="../index.php">Sair</a></li>
             </ul>
         </nav>
@@ -116,11 +40,9 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
 
     <div class="container">
         <h1>Selecione o Local de Armazenamento</h1>
-
         <form id="form-locacao" action="../controller/cadastrarLocalizacao.php" method="post">
             <!-- Campo oculto para armazenar o ID do produto -->
             <input type="hidden" name="produto_id" value="<?php echo htmlspecialchars($produtoId); ?>">
-
             <div class="map">
                 <h2>Mapa do Armazém</h2>
                 <table id="warehouse-map">
@@ -163,23 +85,30 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
                     </tbody>
                 </table>
             </div>
-
             <div class="buttons">
                 <button type="button" id="btn-cancelar">Cancelar</button>
                 <button type="submit" id="btn-ok">Ok</button>
             </div>
         </form>
-
-
-
-
-        <script>
-            function updateSelectedLocation(radio) {
-
-                console.log("Localização selecionada:", radio.value);
-            }
-        </script>
     </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
+            </div>
+            <div class="footer-right">
+                <a href="https://www.linkedin.com/in/seunome" target="_blank">LinkedIn</a> |
+                <a href="https://github.com/seunome" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        function updateSelectedLocation(radio) {
+
+            console.log("Localização selecionada:", radio.value);
+        }
+    </script>
 
 </body>
 
