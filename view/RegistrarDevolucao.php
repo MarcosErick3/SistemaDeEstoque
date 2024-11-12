@@ -79,12 +79,37 @@
     <main>
         <form action="../controller/registrarDevolucao.php" method="POST">
             <label for="produto_id">Produto</label>
-            <input type="text" name="produto_id" id="produto_id" placeholder="ID ou Nome do Produto" required>
+            <select name="produto_id" id="produto_id" required>
+                <option value="">Selecione um produto</option>
+                <?php
+                require 'global.php';
+
+                try {
+                    $listaProdutos = ProdutoDAO::listarProduto();
+                } catch (Exception $e) {
+                    echo '<pre>';
+                    print_r($e);
+                    echo '</pre>';
+                    echo '<p style="color:red;">' . htmlspecialchars($e->getMessage()) . '</p>';
+                }
+                ?>
+                <?php foreach ($listaProdutos as $produto) { ?>
+                    <option value="<?php echo htmlspecialchars($produto['produto_id']); ?>">
+                        <?php echo htmlspecialchars($produto['nome']); ?>
+                    </option>
+                <?php } ?>
+            </select>
             <label for="categoria">Categoria</label>
-            <input type="text" name="categoria" id="categoria" required>
-            <label for="fornecedor_id">Fornecedor</label>
-            <input type="text" name="fornecedor_id" id="fornecedor_id" placeholder="ID ou Nome do Fornecedor" required>
-            <label for="quantidade">Quantidade</label>
+            <select name="categoria" id="categoria" required>
+                <option value="">Selecione uma categoria</option>
+                <option value="Eletrônicos">Eletrônicos</option>
+                <option value="Vestuário">Vestuário</option>
+                <option value="Alimentos">Alimenticios</option>
+                <option value="Brinquedos">Brinquedos</option>
+            </select>
+            <label for="cliente">Cliente</label>
+            <input type="text" name="cliente" id="cliente" placeholder="Nome do Cliente" required>
+            <label for="quantidade">Quantidade Devolvida</label>
             <input type="number" name="quantidade" id="quantidade" min="1" required>
             <label for="data_devolucao">Data da Devolução</label>
             <input type="date" name="data_devolucao" id="data_devolucao" required>

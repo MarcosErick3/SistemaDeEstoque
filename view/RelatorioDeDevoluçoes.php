@@ -59,7 +59,7 @@
                 <thead>
                     <tr>
                         <th>Pedido</th>
-                        <th>Fornecedor</th>
+                        <th>Cliente</th>
                         <th>Produto</th>
                         <th>Motivo</th>
                         <th>Data de Devolução</th>
@@ -69,25 +69,31 @@
                     <?php
                     require 'global.php'; // Ajuste o caminho conforme necessário
                     $conexao = Conexao::conectar(); // Conecta ao banco de dados
-                    $query = "SELECT f.nome AS fornecedor, p.nome AS produto, d.motivo, d.data_devolucao
+
+                    // Ajuste a consulta considerando que o nome do cliente está diretamente na tabela devolucoes
+                    $query = "SELECT d.produto_id, d.cliente, p.nome AS produto, d.motivo, d.data_devolucao
                   FROM devolucoes d
-                  JOIN fornecedor f ON d.fornecedor_id = f.fornecedor_id
                   JOIN produto p ON d.produto_id = p.produto_id
                   ORDER BY d.data_devolucao DESC";
+
                     $stmt = $conexao->prepare($query); // Prepara a consulta
                     $stmt->execute(); // Executa a consulta
+
                     if ($stmt->rowCount() > 0) {
                         while ($row = $stmt->fetch()) {
+                            // Aqui estamos ajustando a exibição das informações nas colunas corretas
                             echo "<tr>
-                        <td>{$row['fornecedor']}</td>
-                        <td>{$row['produto']}</td>
-                        <td>{$row['motivo']}</td>
-                        <td>{$row['data_devolucao']}</td>
-                      </tr>";
+                    <td>{$row['produto_id']}</td> <!-- Pedido -->
+                    <td>{$row['cliente']}</td> <!-- Cliente -->
+                    <td>{$row['produto']}</td> <!-- Produto -->
+                    <td>{$row['motivo']}</td> <!-- Motivo -->
+                    <td>{$row['data_devolucao']}</td> <!-- Data da Devolução -->
+                </tr>";
                         }
                     } else {
                         echo "<tr><td colspan='5'>Nenhuma devolução encontrada.</td></tr>";
                     }
+
                     $conexao = null; // Fecha a conexão
                     ?>
                 </tbody>
