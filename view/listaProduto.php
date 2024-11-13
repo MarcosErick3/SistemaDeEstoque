@@ -122,11 +122,7 @@ try {
                             <p><strong>Fornecedor:</strong> <?php echo htmlspecialchars($produto['fornecedor_nome']); ?></p>
                             <p><strong>Data de Fabricação:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($produto['data_fabricacao']))); ?></p>
                             <p><strong>Data de Validade:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($produto['data_validade']))); ?></p>
-<<<<<<< HEAD
                             <p><strong>Data de Recebimento:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($produto['data_recebimento']))); ?></p>
-=======
-                            <p><strong>Data de Recebimento:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($produto['data_recebimento']))); ?></p>    
->>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
                             <p><strong>Corredor:</strong> <?php echo htmlspecialchars($produto['corredor']); ?></p>
                             <p><strong>Prateleira:</strong> <?php echo htmlspecialchars($produto['prateleira']); ?></p>
                             <p><strong>Nível:</strong> <?php echo htmlspecialchars($produto['coluna']); ?></p>
