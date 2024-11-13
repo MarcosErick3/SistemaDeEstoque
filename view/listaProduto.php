@@ -19,14 +19,22 @@ if (isset($_GET['excluir_produto_id'])) {
 }
 
 // Verifica se a requisição é do tipo POST e se há uma consulta
+// Verifica se a requisição é do tipo POST e se há uma consulta
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['query'])) {
     $query = strtolower(trim($_POST['query']));
 }
 
 try {
-    // Busca produtos com base na consulta
+    // Modifiquei a busca para procurar pelo código de barras se for um número
     if (!empty($query)) {
-        $produtos = ProdutoDao::buscarProduto($query); // Chama a função de busca no ProdutoDao
+        // Verifica se o valor da pesquisa parece um código de barras (pode ser um número)
+        if (is_numeric($query)) {
+            // Se for um número, realiza a busca pelo código de barras
+            $produtos = ProdutoDao::buscarProdutoPorCodigoBarras($query);
+        } else {
+            // Caso contrário, realiza a busca normal
+            $produtos = ProdutoDao::buscarProduto($query);
+        }
     }
 
     // Listar todos os produtos cadastrados
@@ -34,6 +42,7 @@ try {
 } catch (Exception $e) {
     die("Erro ao buscar produtos: " . htmlspecialchars($e->getMessage()));
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -113,7 +122,11 @@ try {
                             <p><strong>Fornecedor:</strong> <?php echo htmlspecialchars($produto['fornecedor_nome']); ?></p>
                             <p><strong>Data de Fabricação:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($produto['data_fabricacao']))); ?></p>
                             <p><strong>Data de Validade:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($produto['data_validade']))); ?></p>
+<<<<<<< HEAD
                             <p><strong>Data de Recebimento:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($produto['data_recebimento']))); ?></p>
+=======
+                            <p><strong>Data de Recebimento:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($produto['data_recebimento']))); ?></p>    
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
                             <p><strong>Corredor:</strong> <?php echo htmlspecialchars($produto['corredor']); ?></p>
                             <p><strong>Prateleira:</strong> <?php echo htmlspecialchars($produto['prateleira']); ?></p>
                             <p><strong>Nível:</strong> <?php echo htmlspecialchars($produto['coluna']); ?></p>

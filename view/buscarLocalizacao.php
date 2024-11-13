@@ -7,12 +7,13 @@ if (isset($_GET['produto_id'])) {
     $conn = Conexao::conectar();
 
     try {
+        // Ajuste da consulta SQL para garantir que a coluna 'quantidade' é referenciada corretamente
         $sql = "SELECT l.localizacao_id, 
                        CONCAT(l.corredor, ' - ', l.prateleira, ' - ', l.coluna, ' - ', l.andar) AS localizacao_nome, 
-                       p.quantidade_reservada AS quantidade 
-                FROM produto p 
-                JOIN produto_localizacao pl ON p.produto_id = pl.produto_id 
-                JOIN localizacao l ON pl.localizacao_id = l.localizacao_id 
+                       e.quantidade AS quantidade_estoque  -- Alias da coluna 'quantidade'
+                FROM produto p
+                JOIN estoque e ON p.produto_id = e.produto_id
+                JOIN localizacao l ON e.localizacao_id = l.localizacao_id
                 WHERE p.produto_id = :produto_id";
 
         $stmt = $conn->prepare($sql);
@@ -24,7 +25,7 @@ if (isset($_GET['produto_id'])) {
         if ($data) {
             echo json_encode($data);
         } else {
-            echo json_encode(['localizacao_id' => null, 'quantidade' => 0]);
+            echo json_encode(['localizacao_id' => null, 'quantidade_estoque' => 0]);
         }
     } catch (PDOException $e) {
         echo json_encode(['error' => $e->getMessage()]);

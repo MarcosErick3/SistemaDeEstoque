@@ -70,6 +70,21 @@ body {
     color: #fff;
 }
 
+.nav-item a:active {
+    background-color: #0056b3;
+    /* cor de fundo do link selecionado */
+    color: #fff;
+    /* cor do texto */
+}
+
+.nav-item a.selecionado {
+    background-color: #0056b3;
+    /* cor de fundo para item selecionado */
+    color: #fff;
+    /* cor do texto */
+}
+
+
 /* Main Content */
 main {
     margin-left: 270px;

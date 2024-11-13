@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 06/11/2024 às 00:30
+-- Tempo de geração: 13/11/2024 às 06:18
 -- Versão do servidor: 8.0.39
 -- Versão do PHP: 8.2.12
 
@@ -30,11 +30,11 @@ SET time_zone = "+00:00";
 CREATE TABLE `devolucoes` (
   `devolucao_id` int NOT NULL,
   `produto_id` int NOT NULL,
-  `fornecedor_id` int NOT NULL,
   `data_devolucao` date NOT NULL,
   `quantidade` int NOT NULL,
   `motivo` varchar(255) NOT NULL,
-  `categoria` varchar(50) NOT NULL
+  `categoria` varchar(50) NOT NULL,
+  `cliente` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -134,7 +134,7 @@ CREATE TABLE `localizacao` (
 --
 
 INSERT INTO `localizacao` (`localizacao_id`, `corredor`, `prateleira`, `coluna`, `andar`, `capacidade_total`, `ocupacao_atual`) VALUES
-(15, 'A', '1', '1', 1, 50, 0),
+(15, 'A', '1', '1', 1, 50, 1),
 (16, 'A', '1', '2', 1, 50, 0),
 (17, 'A', '1', '3', 1, 50, 0),
 (18, 'B', '2', '1', 2, 75, 0),
@@ -198,9 +198,24 @@ CREATE TABLE `produto` (
   `data_fabricacao` date DEFAULT NULL,
   `data_validade` date DEFAULT NULL,
   `quantidade_reservada` int DEFAULT '0',
-  `status_produto` varchar(50) DEFAULT 'Disponível',
-  `categoria` varchar(100) DEFAULT NULL
+  `categoria` varchar(100) DEFAULT NULL,
+  `data_recebimento` date DEFAULT NULL,
+  `status_produto` enum('disponivel','alocado') DEFAULT 'disponivel',
+  `localizacao_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Acionadores `produto`
+--
+DELIMITER $$
+CREATE TRIGGER `ajustar_ocupacao_apos_exclusao_produto` AFTER DELETE ON `produto` FOR EACH ROW BEGIN
+    -- Atualiza a ocupação na tabela de localizacao
+    UPDATE localizacao
+    SET ocupacao_atual = GREATEST(ocupacao_atual - 1, 0)
+    WHERE localizacao_id = OLD.localizacao_id;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -271,8 +286,7 @@ CREATE TABLE `saida` (
 --
 ALTER TABLE `devolucoes`
   ADD PRIMARY KEY (`devolucao_id`),
-  ADD KEY `produto_id` (`produto_id`),
-  ADD KEY `fornecedor_id` (`fornecedor_id`);
+  ADD KEY `produto_id` (`produto_id`);
 
 --
 -- Índices de tabela `divergencia`
@@ -287,6 +301,7 @@ ALTER TABLE `divergencia`
 --
 ALTER TABLE `estoque`
   ADD PRIMARY KEY (`estoque_id`),
+  ADD UNIQUE KEY `produto_id_2` (`produto_id`,`localizacao_id`),
   ADD KEY `produto_id` (`produto_id`),
   ADD KEY `localizacao_id` (`localizacao_id`);
 
@@ -372,19 +387,19 @@ ALTER TABLE `saida`
 -- AUTO_INCREMENT de tabela `devolucoes`
 --
 ALTER TABLE `devolucoes`
-  MODIFY `devolucao_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `devolucao_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `divergencia`
 --
 ALTER TABLE `divergencia`
-  MODIFY `divergencia_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `divergencia_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `estoque`
 --
 ALTER TABLE `estoque`
-  MODIFY `estoque_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `estoque_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedor`
@@ -402,13 +417,13 @@ ALTER TABLE `inventario`
 -- AUTO_INCREMENT de tabela `localizacao`
 --
 ALTER TABLE `localizacao`
-  MODIFY `localizacao_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `localizacao_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT de tabela `movimentacao`
 --
 ALTER TABLE `movimentacao`
-  MODIFY `movimentacao_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `movimentacao_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `operador`
@@ -420,13 +435,13 @@ ALTER TABLE `operador`
 -- AUTO_INCREMENT de tabela `produto`
 --
 ALTER TABLE `produto`
-  MODIFY `produto_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `produto_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT de tabela `produto_localizacao`
 --
 ALTER TABLE `produto_localizacao`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT de tabela `recebimento`
@@ -444,7 +459,7 @@ ALTER TABLE `reposicao`
 -- AUTO_INCREMENT de tabela `saida`
 --
 ALTER TABLE `saida`
-  MODIFY `saida_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `saida_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restrições para tabelas despejadas
@@ -454,8 +469,7 @@ ALTER TABLE `saida`
 -- Restrições para tabelas `devolucoes`
 --
 ALTER TABLE `devolucoes`
-  ADD CONSTRAINT `devolucoes_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`produto_id`),
-  ADD CONSTRAINT `devolucoes_ibfk_2` FOREIGN KEY (`fornecedor_id`) REFERENCES `fornecedor` (`fornecedor_id`);
+  ADD CONSTRAINT `devolucoes_ibfk_1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`produto_id`);
 
 --
 -- Restrições para tabelas `divergencia`

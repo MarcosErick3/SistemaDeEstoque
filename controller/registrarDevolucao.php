@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt->execute();
         echo "Devolução registrada com sucesso!";
+        header("Location: ../view/registrarDevolucao.php");
     } catch (Exception $e) {
         echo "Erro ao registrar devolução: " . $e->getMessage();
     }

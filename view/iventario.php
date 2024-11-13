@@ -66,11 +66,14 @@
         .quantity-action button {
             padding: 5px 10px;
         }
+<<<<<<< HEAD
 
         .footer {
             position: fixed;
             bottom: 0;
         }
+=======
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
     </style>
 </head>
 
@@ -116,6 +119,7 @@
                     </thead>
                     <tbody id="tableBody">
                         <?php
+<<<<<<< HEAD
                         // Conectando ao banco de dados
                         $conexao = Conexao::conectar();
 
@@ -135,6 +139,24 @@
                     LEFT JOIN localizacao AS l ON lp.localizacao_id = l.localizacao_id
                     LEFT JOIN estoque AS e ON p.produto_id = e.produto_id
                     GROUP BY p.produto_id, l.corredor, l.prateleira, l.coluna, l.andar, p.status_produto";
+=======
+                        $conexao = Conexao::conectar();
+
+                        $sql = "SELECT 
+                p.produto_id AS codigo_produto, 
+                p.nome AS nome_produto, 
+                p.categoria, 
+                IFNULL(l.corredor, 'N/A') AS corredor,
+                IFNULL(l.prateleira, 'N/A') AS prateleira,
+                IFNULL(l.coluna, 'N/A') AS coluna,
+                IFNULL(l.andar, 'N/A') AS andar,
+                e.quantidade AS quantidade,  
+                p.status_produto AS status 
+                FROM produto AS p
+                LEFT JOIN produto_localizacao AS lp ON p.produto_id = lp.produto_id
+                LEFT JOIN localizacao AS l ON lp.localizacao_id = l.localizacao_id
+                LEFT JOIN estoque AS e ON p.produto_id = e.produto_id";
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
 
                         $result = $conexao->query($sql);
 
@@ -162,6 +184,7 @@
                                 echo isset($row['coluna']) ? ' ' . htmlspecialchars($row['coluna']) : '';
                                 echo isset($row['andar']) ? ' ' . htmlspecialchars($row['andar']) : '';
                                 echo "</td>";
+<<<<<<< HEAD
                                 echo "<td>" . htmlspecialchars($row['quantidade']) . "</td>";
                                 echo "<td class='{$statusClass}'>" . htmlspecialchars($row['status']) . "</td>";
                                 echo "<td>
@@ -171,6 +194,18 @@
                                     <button onclick='updateQuantity(" . $row['codigo_produto'] . ", \"remove\")'>Remover</button>
                                 </div>
                             </td>";
+=======
+
+                                echo "<td>" . htmlspecialchars($row['quantidade']) . "</td>";
+                                echo "<td class='{$statusClass}'>" . htmlspecialchars($row['status']) . "</td>";
+                                echo "<td>
+                            <div class='quantity-action'>
+                                <input type='number' class='quantity' value='1'>
+                                <button onclick='updateQuantity(" . $row['codigo_produto'] . ", \"add\")'>Adicionar</button>
+                                <button onclick='updateQuantity(" . $row['codigo_produto'] . ", \"remove\")'>Remover</button>
+                            </div>
+                          </td>";
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
                                 echo "<td><button class='notifyBtn' onclick='notifyDiscrepancy(this)'>Notificar Divergência</button></td>";
                                 echo "</tr>";
                             }
@@ -178,7 +213,10 @@
                             echo "<tr><td colspan='8'>Nenhum produto encontrado</td></tr>";
                         }
 
+<<<<<<< HEAD
                         // Fechando a conexão
+=======
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
                         $conexao = null;
                         ?>
                     </tbody>
@@ -199,6 +237,7 @@
         </footer>
 
         <script>
+<<<<<<< HEAD
             // Função para filtrar dados na tabela
             function filtrarDados() {
                 const searchInput = document.getElementById("searchProduct").value.toLowerCase();
@@ -243,6 +282,67 @@
                 alert("Produto com ID " + produtoId + " (" + nomeProduto + ") foi marcado para divergência.");
             }
         </script>   
+=======
+            function updateQuantity(produtoId, action) {
+                const quantityInput = document.querySelector(`#quantity_${produtoId}`);
+                let currentQuantity = parseInt(quantityInput.value);
+                if (action === 'add') {
+                    currentQuantity += 1;
+                } else if (action === 'remove' && currentQuantity > 0) {
+                    currentQuantity -= 1;
+                }
+                quantityInput.value = currentQuantity;
+
+                // Enviar a atualização da quantidade via AJAX
+                fetch('../controller/updateEstoque.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `produto_id=${produtoId}&action=${action}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === "success") {
+                            alert(data.message);
+                        } else {
+                            alert("Erro ao atualizar a quantidade.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Erro na solicitação:", error);
+                        alert("Erro ao atualizar a quantidade.");
+                    });
+            }
+
+            function notifyDiscrepancy(button) {
+                const row = button.closest('tr');
+                const produtoId = row.cells[1].innerText; // Código do Produto
+                const destino = row.cells[3].innerText; // Localização (corrigido para 'destino')
+
+                // Enviar dados da divergência via AJAX
+                fetch('../controller/registrarDivergencia.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `produto_id=${encodeURIComponent(produtoId)}&destino=${encodeURIComponent(destino)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            alert("Divergência registrada com sucesso.");
+                        } else {
+                            alert("Erro ao registrar divergência.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Erro na solicitação:", error);
+                        alert("Erro ao registrar divergência.");
+                    });
+            }
+        </script>
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
 
 
 </body>

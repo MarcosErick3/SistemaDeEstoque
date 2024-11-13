@@ -155,11 +155,16 @@
             const naoAplicaCheckbox = document.getElementById('naoAplicaValidade');
 
             if (naoAplicaCheckbox.checked) {
-                dataValidade.value = "";
-                dataValidade.disabled = true;
+                dataValidade.value = ""; 
+                dataValidade.disabled = true; 
             } else {
+<<<<<<< HEAD
                 dataValidade.disabled = false;
                 dataValidade.value = "";
+=======
+                dataValidade.disabled = false; 
+                dataValidade.value = ""; 
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
             }
         }
 

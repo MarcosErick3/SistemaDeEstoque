@@ -61,7 +61,7 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
 ?>
 
 <body>
-<header id="header">
+    <header id="header">
         <nav id="navbar">
             <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">

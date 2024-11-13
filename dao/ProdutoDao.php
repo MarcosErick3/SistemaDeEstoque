@@ -51,6 +51,7 @@ class ProdutoDAO
     {
         try {
             $conexao = Conexao::conectar();
+<<<<<<< HEAD
             $queryUpdate = "UPDATE produto SET 
                              nome = :nome, categoria = :categoria, marca = :marca, 
                              peso = :peso, dimensoes = :dimensoes, numero_lote = :numero_lote, 
@@ -59,6 +60,14 @@ class ProdutoDAO
                              data_validade = :data_validade, quantidade_reservada = :quantidade_reservada 
                              WHERE produto_id = :produto_id";
 
+=======
+            $queryUpdate = "UPDATE produto SET nome = :nome, categoria = :categoria, marca = :marca, 
+                            peso = :peso, dimensoes = :dimensoes, numero_lote = :numero_lote, 
+                            numero_serie = :numero_serie, codigo_barras = :codigo_barras, 
+                            fornecedor_id = :fornecedor_id, data_fabricacao = :data_fabricacao, 
+                            data_validade = :data_validade, data_recebimento =:data_recebimento, quantidade_reservada = :quantidade_reservada 
+                            WHERE produto_id = :produto_id";
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
             $stmt = $conexao->prepare($queryUpdate);
 
             $stmt->bindValue(':nome', $produto->getNome());
@@ -72,6 +81,7 @@ class ProdutoDAO
             $stmt->bindValue(':fornecedor_id', $produto->getFornecedorId());
             $stmt->bindValue(':data_fabricacao', $produto->getDataFabricacao());
             $stmt->bindValue(':data_validade', $produto->getDataValidade());
+            $stmt->bindValue(':data_recebimento', $produto->getDataRecebimento());
             $stmt->bindValue(':quantidade_reservada', $produto->getQuantidade_reservada());
             $stmt->bindValue(':produto_id', $produto->getProdutoId(), PDO::PARAM_INT);
 
@@ -134,14 +144,22 @@ class ProdutoDAO
                        l.coluna, 
                        l.andar, 
                        f.nome AS fornecedor_nome,
+<<<<<<< HEAD
                        SUM(e.quantidade) AS quantidade_reservada, 
                        p.data_recebimento  -- Adicionando a coluna data_recebimento
+=======
+                       SUM(e.quantidade) as quantidade_reservada  -- Soma as quantidades para evitar duplicação
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
                 FROM produto p
                 LEFT JOIN produto_localizacao pl ON p.produto_id = pl.produto_id
                 LEFT JOIN localizacao l ON pl.localizacao_id = l.localizacao_id
                 LEFT JOIN fornecedor f ON p.fornecedor_id = f.fornecedor_id
                 LEFT JOIN estoque e ON p.produto_id = e.produto_id
+<<<<<<< HEAD
                 GROUP BY p.produto_id, l.corredor, l.prateleira, l.coluna, l.andar, f.nome, p.data_recebimento";  // Incluindo data_recebimento no GROUP BY
+=======
+                GROUP BY p.produto_id, l.corredor, l.prateleira, l.coluna, l.andar, f.nome";  // Agrupa por campos-chave
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
 
         $stmt = $conexao->prepare($sql);
         $stmt->execute();
@@ -150,7 +168,10 @@ class ProdutoDAO
     }
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
     public static function buscarProdutoPorId($codigo)
     {
         try {
@@ -174,6 +195,10 @@ class ProdutoDAO
 
             if ($stmt->rowCount() > 0) {
                 $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+<<<<<<< HEAD
+=======
+                var_dump($produto);  // Depuração
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
                 return $produto;
             } else {
                 throw new Exception("Produto não encontrado.");
@@ -201,37 +226,76 @@ class ProdutoDAO
             // Iniciar uma transação
             $conexao->beginTransaction();
 
+<<<<<<< HEAD
             // 1. Excluir as devoluções associadas ao produto (antes de excluir o produto)
+=======
+            // 1. Obter o localizacao_id do produto
+            $stmt = $conexao->prepare("SELECT localizacao_id FROM produto WHERE produto_id = :produto_id");
+            $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
+            $stmt->execute();
+            $localizacao = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // 2. Obter a quantidade do produto na tabela produto_localizacao
+            $quantidadeProduto = 0;
+            if ($localizacao && $localizacao['localizacao_id']) {
+                $stmt = $conexao->prepare("SELECT quantidade FROM produto_localizacao WHERE produto_id = :produto_id AND localizacao_id = :localizacao_id");
+                $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
+                $stmt->bindParam(':localizacao_id', $localizacao['localizacao_id'], PDO::PARAM_INT);
+                $stmt->execute();
+                $quantidadeProduto = $stmt->fetchColumn();
+            }
+
+            // 3. Excluir as devoluções associadas ao produto
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
             $stmt = $conexao->prepare("DELETE FROM devolucoes WHERE produto_id = :produto_id");
             $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
             $stmt->execute();
 
+<<<<<<< HEAD
             // 2. Excluir as movimentações associadas ao produto
             $stmt = $conexao->prepare("DELETE FROM movimentacao WHERE produto_id = :produto_id");
             $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
             $stmt->execute();
 
             // 3. Excluir as divergências associadas ao produto
+=======
+            // 4. Excluir os registros relacionados em divergencia
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
             $stmt = $conexao->prepare("DELETE FROM divergencia WHERE produto_id = :produto_id");
             $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
             $stmt->execute();
 
+<<<<<<< HEAD
             // 4. Excluir as saídas associadas ao produto
             $stmt = $conexao->prepare("DELETE FROM saida WHERE produto_id = :produto_id");
             $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
             $stmt->execute();
 
             // 5. Excluir o estoque do produto
+=======
+            // 5. Excluir os registros relacionados em movimentacao
+            $stmt = $conexao->prepare("DELETE FROM movimentacao WHERE produto_id = :produto_id");
+            $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
+            $stmt->execute();
+
+            // 6. Excluir os registros relacionados na tabela estoque
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
             $stmt = $conexao->prepare("DELETE FROM estoque WHERE produto_id = :produto_id");
             $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
             $stmt->execute();
 
+<<<<<<< HEAD
             // 6. Obter o localizacao_id do produto (caso haja)
             $stmt = $conexao->prepare("SELECT localizacao_id FROM produto_localizacao WHERE produto_id = :produto_id");
+=======
+            // 7. Excluir os registros relacionados na tabela produto_localizacao
+            $stmt = $conexao->prepare("DELETE FROM produto_localizacao WHERE produto_id = :produto_id");
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
             $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
             $stmt->execute();
             $localizacao = $stmt->fetch(PDO::FETCH_ASSOC);
 
+<<<<<<< HEAD
             // 7. Excluir o produto_localizacao (vinculação entre produto e localizacao)
             if ($localizacao) {
                 $stmt = $conexao->prepare("DELETE FROM produto_localizacao WHERE produto_id = :produto_id");
@@ -249,11 +313,35 @@ class ProdutoDAO
             }
 
             // 9. Excluir o produto da tabela produto
+=======
+            // 8. Excluir o produto na tabela produto
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
             $stmt = $conexao->prepare("DELETE FROM produto WHERE produto_id = :produto_id");
             $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
             $stmt->execute();
 
+<<<<<<< HEAD
             // 10. Confirmar a transação
+=======
+            // 9. Atualizar a ocupação da localização, diminuindo a quantidade do produto
+            if ($localizacao && $localizacao['localizacao_id']) {
+                $stmt = $conexao->prepare("UPDATE localizacao 
+                                           SET ocupacao_atual = GREATEST(ocupacao_atual - :quantidade, 0) 
+                                           WHERE localizacao_id = :localizacao_id");
+
+                $stmt->bindParam(':quantidade', $quantidadeProduto, PDO::PARAM_INT);
+                $stmt->bindParam(':localizacao_id', $localizacao['localizacao_id'], PDO::PARAM_INT);
+
+                if ($stmt->execute()) {
+                    echo "Ocupação atualizada com sucesso!";
+                } else {
+                    // Exibe o erro de execução SQL
+                    print_r($stmt->errorInfo());
+                }
+            }
+
+            // Commit da transação
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
             $conexao->commit();
             return true;
         } catch (PDOException $e) {
@@ -265,6 +353,11 @@ class ProdutoDAO
 
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
     public static function pesquisarProdutoPorNome($nomeProduto)
     {
         try {

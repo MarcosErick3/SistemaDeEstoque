@@ -144,7 +144,11 @@ class Produto
         $dateTime = DateTime::createFromFormat('Y-m-d', $data);
         return $dateTime ? $dateTime->format('Y-m-d') : null; // Retorna nulo se o formato estiver errado
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
     public function getQuantidade_reservada()
     {
         return $this->quantidade_reservada;

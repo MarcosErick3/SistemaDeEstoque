@@ -19,7 +19,11 @@ $localizacoes = LocalizacaoDao::ListarLocalizacao();
 ?>
 
 <body>
+<<<<<<< HEAD
     <header id="header">
+=======
+<header id="header">
+>>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
         <nav id="navbar">
             <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">
