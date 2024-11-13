@@ -15,6 +15,8 @@ class Produto
     private $dataFabricacao;
     private $dataValidade;
 
+    private $dataRecebimento;
+
     private $quantidade_reservada;
     private $statusProduto;
     // Métodos set
@@ -65,6 +67,11 @@ class Produto
     public function setDataValidade($dataValidade)
     {
         $this->dataValidade = $dataValidade;
+    }
+
+    public function setDataRecebimento($dataRecebimento)
+    {
+        $this->dataRecebimento = $dataRecebimento;
     }
     public function setQuantidade_reservada($quantidade_reservada)
     {
@@ -129,7 +136,15 @@ class Produto
         $dateTime = DateTime::createFromFormat('Y-m-d', $data);
         return $dateTime ? $dateTime->format('Y-m-d') : null; // Retorna nulo se o formato estiver errado
     }
-    
+
+    public function getDataRecebimento()
+    {
+        // Certifique-se de que a data está no formato correto
+        $data = $this->dataRecebimento; // Supondo que você tenha uma propriedade
+        $dateTime = DateTime::createFromFormat('Y-m-d', $data);
+        return $dateTime ? $dateTime->format('Y-m-d') : null; // Retorna nulo se o formato estiver errado
+    }
+
     public function getQuantidade_reservada()
     {
         return $this->quantidade_reservada;

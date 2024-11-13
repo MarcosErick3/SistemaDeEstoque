@@ -8,7 +8,48 @@
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/armazenamento.css">
-    <title>Tela de Armazenamento</title>
+    <style>
+        .input-column {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        /* Estilo dos grupos de inputs */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin: 0 10px;
+            min-width: 220px;
+        }
+
+        /* Estilo do rótulo dos inputs */
+        .input-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333333;
+            /* Cor do texto */
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Estilo dos campos de input */
+        input {
+            width: 24%;
+            padding: 15px;
+            border: 1px solid #ccc;
+            /* Cor da borda padrão */
+            border-radius: 4px;
+            background-color: #ffffff;
+            /* Cor de fundo dos campos */
+            font-size: 16px;
+            color: #333333;
+            /* Cor do texto nos campos */
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+    </style>
+    <title>Smart Stock - Tela de Armazenamento</title>
 </head>
 
 <?php
@@ -26,10 +67,9 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
-                <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
                 <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
-                <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
+                <li class="nav-item"><a href="mapaAmazem.php">Mapa do Armazenamem</a></li>
+                <li class="nav-item"><a href="iventario.php">Inventário</a></li>
                 <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
                 <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
                 <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
@@ -37,12 +77,17 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
             </ul>
         </nav>
     </header>
-
     <div class="container">
         <h1>Selecione o Local de Armazenamento</h1>
         <form id="form-locacao" action="../controller/cadastrarLocalizacao.php" method="post">
             <!-- Campo oculto para armazenar o ID do produto -->
             <input type="hidden" name="produto_id" value="<?php echo htmlspecialchars($produtoId); ?>">
+
+            <div class="input-group">
+                <label for="quantidade_reservada">Digite a quantidade do produto cadastrado:</label>
+                <input type="number" id="quantidade_reservada" name="quantidade" required>
+            </div>
+
             <div class="map">
                 <h2>Mapa do Armazém</h2>
                 <table id="warehouse-map">
@@ -50,8 +95,8 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
                         <tr>
                             <th>Corredor</th>
                             <th>Prateleira</th>
-                            <th>Coluna</th>
-                            <th>Andar</th>
+                            <th>Nível</th>
+                            <th>Posição</th>
                             <th>Capacidade Total</th>
                             <th>Ocupação Atual</th>
                             <th>Status</th>
@@ -85,8 +130,12 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
                     </tbody>
                 </table>
             </div>
+
             <div class="buttons">
-                <button type="button" id="btn-cancelar">Cancelar</button>
+                <!-- Botão de cancelar, sem enviar o formulário -->
+                <button type="button" id="btn-cancelar" onclick="window.location.href='../view/Armazenamento.php';">Cancelar</button>
+
+                <!-- Botão de confirmação -->
                 <button type="submit" id="btn-ok">Ok</button>
             </div>
         </form>
@@ -107,6 +156,19 @@ $produtoId = isset($_GET['produtoId']) ? $_GET['produtoId'] : null; // Obtém o 
         function updateSelectedLocation(radio) {
 
             console.log("Localização selecionada:", radio.value);
+        }
+
+        function updateSelectedLocation(radio) {
+            const selectedCorredor = radio.getAttribute('data-corredor');
+            const selectedPrateleira = radio.getAttribute('data-prateleira');
+            const selectedColuna = radio.getAttribute('data-coluna');
+            const selectedAndar = radio.getAttribute('data-andar');
+            const selectedCapacidade = radio.getAttribute('data-capacidade');
+            const selectedOcupacao = radio.getAttribute('data-ocupacao');
+
+            // Exibir ou processar as informações da localização selecionada (opcional)
+            console.log(`Localização selecionada: ${selectedCorredor} - ${selectedPrateleira} - ${selectedColuna} - ${selectedAndar}`);
+            console.log(`Capacidade: ${selectedCapacidade}, Ocupação Atual: ${selectedOcupacao}`);
         }
     </script>
 

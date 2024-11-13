@@ -8,7 +8,7 @@ class Conexao
         $conexao = new PDO(
             "mysql:host=localhost;dbname=sistemaestoque",
             "root",
-            "02072004mM."
+            ""
         );
         //mysqli
         $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

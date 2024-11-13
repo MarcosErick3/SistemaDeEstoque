@@ -4,7 +4,7 @@ require 'global.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Coleta dos dados do formulário
     $produtoId = intval($_POST['produto_id']); // Coleta o produto_id diretamente do formulário
-    $fornecedorId = intval($_POST['cliente']); // Certifique-se de que o cliente é válido
+    $cliente = intval($_POST['cliente']); // Certifique-se de que o cliente é válido
     $quantidade = intval($_POST['quantidade']);
     $dataDevolucao = $_POST['data_devolucao'];
     $motivo = $_POST['motivo'];
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':produto_id', $produtoId, PDO::PARAM_INT);
-        $stmt->bindParam(':cliente', $fornecedorId, PDO::PARAM_INT);
+        $stmt->bindParam(':cliente', $cliente, PDO::PARAM_INT);
         $stmt->bindParam(':quantidade', $quantidade, PDO::PARAM_INT);
         $stmt->bindParam(':data_devolucao', $dataDevolucao);
         $stmt->bindParam(':motivo', $motivo);

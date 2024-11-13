@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Movimentação</title>
+    <title>Smart Stock - Registrar Movimentação</title>
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/produto/registrarMovimentacao.css">
@@ -18,10 +18,9 @@
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
-                <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
                 <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
-                <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
+                <li class="nav-item"><a href="mapaAmazem.php">Mapa do Armazenamemto</a></li>
+                <li class="nav-item"><a href="iventario.php">Inventário</a></li>
                 <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
                 <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
                 <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
@@ -107,6 +106,17 @@
     </footer>
 
     <script>
+        document.getElementsByClassName('form-main').addEventListener('submit', function(event) {
+            var quantidadeDisponivel = parseInt(document.getElementById('quantidade_disponivel').value);
+            var quantidadeMovimentada = parseInt(document.getElementById('quantidade_movimentada').value);
+
+            // Verifica se a quantidade a movimentar é maior que a disponível
+            if (quantidadeMovimentada > quantidadeDisponivel) {
+                alert('A quantidade a movimentar não pode ser maior que a quantidade disponível.');
+                event.preventDefault(); // Impede o envio do formulário
+            }
+        });
+
         function buscarLocalizacaoQuantidade() {
             const produtoId = document.getElementById('produto_id').value;
 
@@ -126,7 +136,7 @@
 
                         if (data.localizacao_id) {
                             localizacaoOrigemSelect.innerHTML = `<option value="${data.localizacao_id}">${data.localizacao_nome}</option>`;
-                            quantidadeDisponivelInput.value = data.quantidade; // Captura a quantidade do produto
+                            quantidadeDisponivelInput.value = data.quantidade_estoque; // Atualiza a quantidade disponível
                         } else {
                             localizacaoOrigemSelect.innerHTML = '<option value="">Localização não encontrada</option>';
                             quantidadeDisponivelInput.value = 0;
@@ -136,6 +146,7 @@
             }
         }
     </script>
+
 </body>
 
 </html>

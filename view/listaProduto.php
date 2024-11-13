@@ -48,19 +48,24 @@ try {
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/footer.css">
+    <style>
+        .footer {
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
 </head>
 
 <body>
-    <header id="header">
+<header id="header">
         <nav id="navbar">
             <h1 id="system-name">Smart Stock</h1>
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
-                <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
                 <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
-                <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
+                <li class="nav-item"><a href="mapaAmazem.php">Mapa do Armazenamem</a></li>
+                <li class="nav-item"><a href="iventario.php">Inventário</a></li>
                 <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
                 <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
                 <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
@@ -75,18 +80,17 @@ try {
         </form>
 
         <section id="resultado-busca" aria-labelledby="resultado-busca-titulo" aria-live="polite">
-            <h2 id="resultado-busca-titulo">Resultado da Busca</h2>
             <div id="produtos">
                 <?php if (count($produtos) > 0): ?>
                     <?php foreach ($produtos as $produto): ?>
                         <div class="produto-card" onclick="exibirInfoProduto('<?php echo $produto['produto_id']; ?>')" role="button" tabindex="0" aria-label="Ver detalhes do produto">
                             <h3><?php echo htmlspecialchars($produto['nome']); ?></h3>
                             <p><strong>Categoria:</strong> <?php echo htmlspecialchars($produto['categoria']); ?></p>
-                            <p><strong>Fornecedor:</strong> <?php echo htmlspecialchars($produto['fornecedor_nome']); ?></p>
+                            <p><strong>Fornecedor:</strong> <?php echo isset($produto['fornecedor_nome']) ? htmlspecialchars($produto['fornecedor_nome']) : 'Fornecedor não encontrado'; ?></p>
+
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <p>Nenhum produto encontrado.</p>
                 <?php endif; ?>
             </div>
         </section>
@@ -99,6 +103,7 @@ try {
                         <div class="produto-card" onclick="exibirInfoProduto(<?php echo htmlspecialchars($produto['produto_id']); ?>)" role="button" tabindex="0" aria-label="Ver detalhes do produto">
                             <h3><?php echo htmlspecialchars($produto['nome']); ?></h3>
                             <p><strong>Categoria:</strong> <?php echo htmlspecialchars($produto['categoria']); ?></p>
+                            <p><strong>Quantidade:</strong> <?php echo htmlspecialchars($produto['quantidade_reservada']); ?></p>
                             <p><strong>Marca:</strong> <?php echo htmlspecialchars($produto['marca']); ?></p>
                             <p><strong>Peso:</strong> <?php echo htmlspecialchars($produto['peso']); ?></p>
                             <p><strong>Dimensões:</strong> <?php echo htmlspecialchars($produto['dimensoes']); ?></p>
@@ -108,9 +113,11 @@ try {
                             <p><strong>Fornecedor:</strong> <?php echo htmlspecialchars($produto['fornecedor_nome']); ?></p>
                             <p><strong>Data de Fabricação:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($produto['data_fabricacao']))); ?></p>
                             <p><strong>Data de Validade:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($produto['data_validade']))); ?></p>
-                            <p><strong>Status do Produto:</strong> <?php echo htmlspecialchars($produto['status_produto']); ?></p>
+                            <p><strong>Data de Recebimento:</strong> <?php echo htmlspecialchars(date('d/m/Y', strtotime($produto['data_recebimento']))); ?></p>
                             <p><strong>Corredor:</strong> <?php echo htmlspecialchars($produto['corredor']); ?></p>
                             <p><strong>Prateleira:</strong> <?php echo htmlspecialchars($produto['prateleira']); ?></p>
+                            <p><strong>Nível:</strong> <?php echo htmlspecialchars($produto['coluna']); ?></p>
+                            <p><strong>Posição:</strong> <?php echo htmlspecialchars($produto['andar']); ?></p>
 
                             <a class="edit-link" href="editarProduto.php?id=<?php echo htmlspecialchars($produto['produto_id']); ?>" aria-label="Editar produto">Editar</a>
                             <a class="delete-link" href="listaProduto.php?excluir_produto_id=<?php echo htmlspecialchars($produto['produto_id']); ?>" onclick="return confirm('Tem certeza que deseja excluir este produto?');" aria-label="Excluir produto">Excluir</a>
@@ -119,13 +126,6 @@ try {
                 <?php else: ?>
                     <p>Nenhum produto cadastrado.</p>
                 <?php endif; ?>
-            </div>
-        </section>
-
-        <section id="info-produto" aria-labelledby="info-produto-titulo">
-            <h2 id="info-produto-titulo">Detalhes do Produto</h2>
-            <div id="detalhes-produto">
-                <p>Nenhum produto selecionado.</p>
             </div>
         </section>
     </main>

@@ -51,10 +51,9 @@
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
-                <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
                 <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
-                <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
+                <li class="nav-item"><a href="mapaAmazem.php">Mapa do Armazenamem</a></li>
+                <li class="nav-item"><a href="iventario.php">Inventário</a></li>
                 <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
                 <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
                 <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
@@ -136,16 +135,16 @@
         </main>
     </div>
     <footer class="footer">
-            <div class="footer-container">
-                <div class="footer-left">
-                    <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
-                </div>
-                <div class="footer-right">
-                    <a href="https://www.linkedin.com/in/seunome" target="_blank">LinkedIn</a> |
-                    <a href="https://github.com/seunome" target="_blank">GitHub</a>
-                </div>
+        <div class="footer-container">
+            <div class="footer-left">
+                <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
             </div>
-        </footer>
+            <div class="footer-right">
+                <a href="https://www.linkedin.com/in/seunome" target="_blank">LinkedIn</a> |
+                <a href="https://github.com/seunome" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         function markVerified(checkbox) {

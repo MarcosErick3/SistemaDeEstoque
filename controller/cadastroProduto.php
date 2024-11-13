@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fornecedor_id = $_POST['fornecedor_id'];
     $dataFabricacao = $_POST['data_fabricacao'];
     $dataValidade = $_POST['data_validade'];
+    $dataRecebimento = $_POST['data_recebimento'];
     $quantidadeReservada = $_POST['quantidade_reservada'] ?? 0;
     $statusProduto = $_POST['status_produto'];
 
@@ -30,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $produto->setFornecedorId($fornecedor_id);
     $produto->setDataFabricacao($dataFabricacao);
     $produto->setDataValidade($dataValidade);
+    $produto->setDataRecebimento($dataRecebimento);
     $produto->setQuantidade_reservada($quantidadeReservada);
     $produto->setStatusProduto($statusProduto);
 
