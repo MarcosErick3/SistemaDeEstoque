@@ -8,7 +8,23 @@
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
-    <title>Editar Produto</title>
+    <style>
+        select {
+            width: calc(100% - 20px);
+            padding: 15px;
+            border: 1px solid #ccc;
+            /* Cor da borda padrão */
+            border-radius: 4px;
+            background-color: #ffffff;
+            /* Cor de fundo dos campos */
+            font-size: 16px;
+            color: #333333;
+            /* Cor do texto nos campos */
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+    </style>
+    <title>Smart Stock - Editar Produto</title>
 </head>
 
 <body>
@@ -18,10 +34,9 @@
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
-                <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
                 <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
-                <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
+                <li class="nav-item"><a href="mapaAmazem.php">Mapa do Armazenamem</a></li>
+                <li class="nav-item"><a href="iventario.php">Inventário</a></li>
                 <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
                 <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
                 <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
@@ -41,7 +56,7 @@
 
                 try {
                     $produto = ProdutoDao::buscarProdutoPorId($produtoId);
-
+                    $listaFornecedores = FornecedorDAO::listarFornecedor();
                     if ($produto) { // Verifica se o produto foi encontrado
             ?>
                         <div class="form-main">
@@ -61,7 +76,14 @@
                             <div class="input-column">
                                 <div class="input-group">
                                     <label for="categoria">Categoria</label>
-                                    <input type="text" id="categoria" name="categoria" value="<?php echo htmlspecialchars($produto['categoria']); ?>" required>
+                                    <select name="categoria" id="categoria" required>
+                                        <option value="">Selecione uma categoria</option>
+                                        <option value="Eletrônicos" <?php echo ($produto['categoria'] === 'Eletrônicos') ? 'selected' : ''; ?>>Eletrônicos</option>
+                                        <option value="Vestuário" <?php echo ($produto['categoria'] === 'Vestuário') ? 'selected' : ''; ?>>Vestuário</option>
+                                        <option value="Alimentos" <?php echo ($produto['categoria'] === 'Alimentos') ? 'selected' : ''; ?>>Alimentos</option>
+                                        <option value="Brinquedos" <?php echo ($produto['categoria'] === 'Brinquedos') ? 'selected' : ''; ?>>Brinquedos</option>
+                                    </select>
+
                                 </div>
                                 <div class="input-group">
                                     <label for="marca">Marca</label>
@@ -96,8 +118,17 @@
                                     <input type="checkbox" id="naoAplicaValidade" onclick="toggleValidade()">
                                 </div>
                                 <div class="input-group">
-                                    <label for="fornecedor_id">Fornecedor ID</label>
-                                    <input type="text" id="fornecedor_id" name="fornecedor_id" value="<?php echo htmlspecialchars($produto['fornecedor_id']); ?>" required>
+                                    <label for="fornecedor_id">Fornecedor</label>
+                                    <select name="fornecedor_id" id="fornecedor_id" required>
+                                        <option value="">Selecione um Fornecedor</option>
+                                        <?php foreach ($listaFornecedores as $listaFornecedor) { ?>
+                                            <option value="<?php echo htmlspecialchars($listaFornecedor['fornecedor_id']); ?>"
+                                                <?php echo ($produto['fornecedor_id'] == $listaFornecedor['fornecedor_id']) ? 'selected' : ''; ?>>
+                                                <?php echo htmlspecialchars($listaFornecedor['nome']); ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+
                                 </div>
                             </div>
 
@@ -106,10 +137,13 @@
                                     <label for="peso">Peso</label>
                                     <input type="number" step="0.01" id="peso" name="peso" value="<?php echo htmlspecialchars($produto['peso']); ?>" required>
                                 </div>
-                                <div class="input-group">
-                                    <label for="quantidade_reservada">Quantidade Reservada</label>
-                                    <input type="number" id="quantidade_reservada" name="quantidade_reservada" value="<?php echo htmlspecialchars($produto['quantidade_reservada']); ?>" required>
+                                <div class="input-column">
+                                    <div class="input-group">
+                                        <label for="quantidade_estoque">Quantidade em Estoque</label>
+                                        <input type="number" id="quantidade_estoque" name="quantidade_estoque" value="<?php echo htmlspecialchars($produto['quantidade_estoque']); ?>" required>
+                                    </div>
                                 </div>
+
                             </div>
 
                             <div class="input-column">
@@ -120,6 +154,16 @@
                                 <div class="input-group">
                                     <label for="prateleira">Prateleira</label>
                                     <input type="text" id="prateleira" name="prateleira" value="<?php echo htmlspecialchars($produto['prateleira']); ?>" required>
+                                </div>
+                            </div>
+                            <div class="input-column">
+                                <div class="input-group">
+                                    <label>Nível:</label>
+                                    <input type="text" id="coluna" name="coluna" value="<?php echo htmlspecialchars($produto['coluna']); ?>" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="posicao">Posição</label>
+                                    <input type="text" id="andar" name="andar" value="<?php echo htmlspecialchars($produto['andar']); ?>" required>
                                 </div>
                             </div>
                         </div>

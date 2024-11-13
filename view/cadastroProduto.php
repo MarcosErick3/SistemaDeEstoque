@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/header.css">
     <link rel="stylesheet" href="../css/index.css">
     <link rel="shortcut icon" href="../img/logo.jpg" type="image/x-icon">
-    <title>Cadastro de Produto</title>
+    <title>Smart Stock - Cadastro de Produto</title>
 </head>
 
 <body>
@@ -19,10 +19,9 @@
             <ul id="nav">
                 <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
                 <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
-                <li class="nav-item"><a href="registrarInventario.php">Registrar Inventário</a></li>
                 <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                <li class="nav-item"><a href="Armazenamento.php">Armazenamento</a></li>
-                <li class="nav-item"><a href="ExpediçãodeMercadoria.php">Expedição de Mercadoria</a></li>
+                <li class="nav-item"><a href="mapaAmazem.php">Mapa do Armazenamem</a></li>
+                <li class="nav-item"><a href="iventario.php">Inventário</a></li>
                 <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
                 <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
                 <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
@@ -122,8 +121,8 @@
                     <input type="checkbox" id="naoAplicaValidade" onclick="toggleValidade()">
                 </div>
                 <div class="input-group">
-                    <label for="quantidade_reservada">Quantidade Disponivel:</label>
-                    <input type="number" id="quantidade_reservada" name="quantidade_reservada" required>
+                    <label for="dataRecebimento">Data de Recebimento</label>
+                    <input type="date" id="dataRecebimento" name="data_recebimento" required>
                 </div>
             </div>
             <div class="botao">
@@ -156,12 +155,14 @@
             const naoAplicaCheckbox = document.getElementById('naoAplicaValidade');
 
             if (naoAplicaCheckbox.checked) {
-                dataValidade.value = "";
-                dataValidade.disabled = true;
+                dataValidade.value = ""; 
+                dataValidade.disabled = true; 
             } else {
-                dataValidade.disabled = false;
+                dataValidade.disabled = false; 
+                dataValidade.value = ""; 
             }
         }
+
 
 
         function gerarCodigoBarras() {
@@ -203,7 +204,7 @@
             const hoje = new Date();
             const ano = hoje.getFullYear();
             const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-            const dia = String(hoje.getDate()).padStart(2, '0'); 
+            const dia = String(hoje.getDate()).padStart(2, '0');
             const hojeFormatado = `${ano}-${mes}-${dia}`;
             dataFabricacao.value = hojeFormatado;
             preencherCamposAutomaticamente();

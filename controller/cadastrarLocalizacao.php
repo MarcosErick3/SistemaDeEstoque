@@ -2,8 +2,9 @@
 require 'global.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $produto_id = $_POST['produto_id'];
-    $localizacao_id = $_POST['localizacao_id'];
+    $produto_id = $_POST['produto_id']; // ID do produto
+    $localizacao_id = $_POST['localizacao_id']; // ID da localização
+    $quantidade = $_POST['quantidade']; // Quantidade fornecida pelo usuário
 
     try {
         $conexao = Conexao::conectar();
@@ -15,19 +16,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':localizacao_id', $localizacao_id, PDO::PARAM_INT);
         $stmt->execute();
 
-        // Incrementar a ocupação atual da localização
-        $sqlIncrementarOcupacao = "UPDATE localizacao SET ocupacao_atual = ocupacao_atual + 1 WHERE localizacao_id = :localizacao_id";
+        // Incrementar a ocupação atual da localização com a quantidade fornecida
+        $sqlIncrementarOcupacao = "UPDATE localizacao SET ocupacao_atual = ocupacao_atual + :quantidade WHERE localizacao_id = :localizacao_id";
         $stmtIncrementar = $conexao->prepare($sqlIncrementarOcupacao);
+        $stmtIncrementar->bindParam(':quantidade', $quantidade, PDO::PARAM_INT); // Usar a quantidade fornecida
         $stmtIncrementar->bindParam(':localizacao_id', $localizacao_id, PDO::PARAM_INT);
         $stmtIncrementar->execute();
 
-        // Inserir o produto na tabela estoque com localização
-        $quantidade = 1;  // Ajuste conforme necessário
+        // Inserir o produto na tabela estoque com localização e a quantidade fornecida
         $sqlInserirEstoque = "INSERT INTO estoque (produto_id, quantidade, localizacao_id, nivel_minimo, nivel_atual, alerta_critico)
                               VALUES (:produto_id, :quantidade, :localizacao_id, 0, :quantidade, 0)";
         $stmtEstoque = $conexao->prepare($sqlInserirEstoque);
         $stmtEstoque->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
-        $stmtEstoque->bindParam(':quantidade', $quantidade, PDO::PARAM_INT);
+        $stmtEstoque->bindParam(':quantidade', $quantidade, PDO::PARAM_INT); // Usar a quantidade fornecida
         $stmtEstoque->bindParam(':localizacao_id', $localizacao_id, PDO::PARAM_INT);
         $stmtEstoque->execute();
 
