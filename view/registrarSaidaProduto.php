@@ -1,7 +1,6 @@
     <!DOCTYPE html>
     <html lang="pt-BR">
 
-<<<<<<< HEAD
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,26 +19,6 @@
             text-align: center;
             /* Centraliza o texto das mensagens */
         }
-=======
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Smart Stock - Registrar Saída de Produto</title>
-        <link rel="stylesheet" href="../css/header.css">
-        <link rel="stylesheet" href="../css/index.css">
-        <link rel="stylesheet" href="../css/footer.css">
-        <link rel="stylesheet" href="../css/produto/registrarSaidaProduto.css">
-        <style>
-            /* Estilo para mensagens de sucesso ou erro */
-            .message {
-                margin-bottom: 15px;
-                padding: 10px;
-                border-radius: 5px;
-                color: white;
-                text-align: center;
-                /* Centraliza o texto das mensagens */
-            }
->>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
 
             .success {
                 background-color: green;
@@ -49,7 +28,6 @@
                 background-color: red;
             }
 
-<<<<<<< HEAD
         /* Estilo do botão de cancelar */
         .cancel-button {
             background-color: gray;
@@ -86,39 +64,6 @@
             </ul>
         </nav>
     </header>
-=======
-            /* Estilo do botão de cancelar */
-            .cancel-button {
-                background-color: gray;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                padding: 10px 15px;
-                cursor: pointer;
-                margin-top: 10px;
-                /* Margem superior para espaçamento */
-            }
-        </style>
-    </head>
-
-    <body>
-        <header id="header">
-            <nav id="navbar">
-                <h1 id="system-name">Smart Stock</h1>
-                <ul id="nav">
-                    <li class="nav-item"><a href="cadastroProduto.php">Cadastro de Produtos</a></li>
-                    <li class="nav-item"><a href="listaProduto.php">Buscar Produtos</a></li>
-                    <li class="nav-item"><a href="movimentacao.php">Movimentação</a></li>
-                    <li class="nav-item"><a href="mapaAmazem.php">Mapa do Armazenamem</a></li>
-                    <li class="nav-item"><a href="iventario.php">Inventário</a></li>
-                    <li class="nav-item"><a href="RegistrarDevolucao.php">Registrar Devolução</a></li>
-                    <li class="nav-item"><a href="RelatorioDeDevoluçoes.php">Relatório de Devoluções</a></li>
-                    <li class="nav-item"><a href="registrarSaidaProduto.php">Saída do Produto</a></li>
-                    <li class="nav-item"><a href="../index.php">Sair</a></li>
-                </ul>
-            </nav>
-        </header>
->>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
 
         <main>
             <!-- Exibir mensagens de sucesso ou erro -->
@@ -142,7 +87,6 @@
                     require 'global.php';
                     $conexao = Conexao::conectar();
 
-<<<<<<< HEAD
                 // Seleciona o produto, a quantidade disponível no estoque e o nome do fornecedor
                 $sql = "
     SELECT 
@@ -168,24 +112,6 @@
                 }
                 ?>
             </select>
-=======
-                    // Seleciona o produto, a quantidade disponível no estoque e o nome do fornecedor
-                    $sql = "SELECT p.produto_id, p.nome, e.quantidade AS quantidade_estoque, f.fornecedor_id, f.nome AS fornecedor_nome 
-                    FROM produto p
-                    JOIN estoque e ON p.produto_id = e.produto_id
-                    JOIN fornecedor f ON p.fornecedor_id = f.fornecedor_id";
-                    $stmt = $conexao->prepare($sql);
-                    $stmt->execute();
-
-                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        echo "<option value=\"{$row['produto_id']}\" 
-                    data-quantidade=\"{$row['quantidade_estoque']}\" 
-                    data-fornecedor-id=\"{$row['fornecedor_id']}\" 
-                    data-fornecedor-nome=\"{$row['fornecedor_nome']}\">{$row['nome']}</option>";
-                    }
-                    ?>
-                </select>
->>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
 
                 <label for="quantidade">Quantidade:</label>
                 <input type="number" id="quantidade" name="quantidade" required min="1" value="">
@@ -198,7 +124,6 @@
                 <label for="cliente">Cliente:</label>
                 <input type="text" name="cliente" required>
 
-<<<<<<< HEAD
             <button type="submit">Registrar Saída</button>
             <button type="button" class="cancel-button" onclick="window.location.href='listaSaida.php'">Cancelar</button>
         </form>
@@ -208,22 +133,6 @@
         <div class="footer-container">
             <div class="footer-left">
                 <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
-=======
-                <button type="submit">Registrar Saída</button>
-                <button type="button" class="cancel-button" onclick="window.location.href='listaSaida.php'">Cancelar</button>
-            </form>
-
-        </main>
-        <footer class="footer">
-            <div class="footer-container">
-                <div class="footer-left">
-                    <p>&copy; 2024 Smart Stock. Todos os direitos reservados.</p>
-                </div>
-                <div class="footer-right">
-                    <a href="https://www.linkedin.com/in/seunome" target="_blank">LinkedIn</a> |
-                    <a href="https://github.com/seunome" target="_blank">GitHub</a>
-                </div>
->>>>>>> 5c7aff2cc7fd4bcddf5e60cca1220966df79c99d
             </div>
         </footer>
         <script>
